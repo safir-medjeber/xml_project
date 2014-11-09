@@ -14,15 +14,15 @@
  
   <!--HUSB-->
     <!ELEMENT husb EMPTY>
-    <!ATTLIST husb idref ID #REQUIRED>
+    <!ATTLIST husb idref IDREF #REQUIRED>
   
   <!--WIFE-->
     <!ELEMENT wife EMPTY>
-    <!ATTLIST wife idref ID #REQUIRED>
+    <!ATTLIST wife idref  IDREF #REQUIRED>
  
   <!--CHIL-->
     <!ELEMENT chil EMPTY>
-    <!ATTLIST chil idref ID #REQUIRED>
+    <!ATTLIST chil idref IDREF  #REQUIRED>
  
   <!--MARR-->
     <!ELEMENT marr (date,plac)>
@@ -33,7 +33,7 @@
     <!ELEMENT obje (file,title)>
     <!ELEMENT file (form)>
     <!ELEMENT form (#PCDATA)>
-    <!ELEMENT title (#PCDATA)>
+    <!ELEMENT titl (#PCDATA)>
 
 
 
@@ -51,11 +51,10 @@
     <!ELEMENT famc EMPTY>
     <!ATTLIST famc id ID #REQUIRED>
 
-  <!--OBJE-->
-    <!ELEMENT obje (file,title)>
-    <!ELEMENT file (form)>
-    <!ELEMENT form (#PCDATA)>
-    <!ELEMENT title (#PCDATA)>
+ <!--FAMS-->
+    <!ELEMENT famc EMPTY>
+    <!ATTLIST fams id ID #REQUIRED>
+
 
 
 
