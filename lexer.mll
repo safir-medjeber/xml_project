@@ -26,7 +26,7 @@ rule lexer n =
 
   (** Keywords *)
   | id_keywords as s { Tag s::(lexer (n) lexbuf) }
-  | info_keywords as s { Tag s::(information (n) lexbuf) }
+  | info_keywords as s { Tag s::(information "" (n) lexbuf) }
 
   | digit+ as i { Niv (int_of_string i)::lexer (n+1) lexbuf }
   | '@' alphanum+ '@' as s { Id s::lexer (n) lexbuf }
@@ -34,6 +34,7 @@ rule lexer n =
   | eof { [EOF] }
   | _ as c { failwith (Printf.sprintf "Erreur charcater %c, ligne %d" c n) }
 
-and information n = parse
-  | [^'\n']+ as s { Info s::lexer (n) lexbuf }
+and information s n = parse
+  | '&' { information (s^"&amp;") n lexbuf }
+  | [^'\n''&']+ as s' { information (s^s') (n) lexbuf }
   | '\n' { lexer (n) lexbuf }
