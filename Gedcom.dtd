@@ -1,0 +1,63 @@
+<!--ROOT-->
+  <!ELEMENT root (head, (fam* | indi*), trlr)>
+
+
+
+<!--HEAD-->
+  <!ELEMENT head (#PCDATA)>
+
+    
+
+<!--FAM-->
+  <!ELEMENT fam ( husb | wife | chil* | marr? | obje?) >
+  <!ATTLIST fam id ID #REQUIRED>
+ 
+  <!--HUSB-->
+    <!ELEMENT husb EMPTY>
+    <!ATTLIST husb idref ID #REQUIRED>
+  
+  <!--WIFE-->
+    <!ELEMENT wife EMPTY>
+    <!ATTLIST wife idref ID #REQUIRED>
+ 
+  <!--CHIL-->
+    <!ELEMENT chil EMPTY>
+    <!ATTLIST chil idref ID #REQUIRED>
+ 
+  <!--MARR-->
+    <!ELEMENT marr (date,plac)>
+    <!ELEMENT date (#PCDATA)>
+    <!ELEMENT plac (#PCDATA)>
+   
+  <!--OBJE-->
+    <!ELEMENT obje (file,title)>
+    <!ELEMENT file (form)>
+    <!ELEMENT form (#PCDATA)>
+    <!ELEMENT title (#PCDATA)>
+
+
+
+<!--INDI-->
+  <!ELEMENT indi (name, sex, famc?, obje?)>
+  <!ATTLIST indi id ID #REQUIRED>
+
+  <!--NAME-->
+    <!ELEMENT name (#PCDATA)>
+
+  <!--SEX-->
+    <!ELEMENT sex (#PCDATA)>
+
+  <!--FAMC-->
+    <!ELEMENT famc EMPTY>
+    <!ATTLIST famc id ID #REQUIRED>
+
+  <!--OBJE-->
+    <!ELEMENT obje (file,title)>
+    <!ELEMENT file (form)>
+    <!ELEMENT form (#PCDATA)>
+    <!ELEMENT title (#PCDATA)>
+
+
+
+<!--TRLR-->
+  <!ELEMENT head (#PCDATA)>
