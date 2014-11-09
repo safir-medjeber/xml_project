@@ -1,6 +1,5 @@
 <!--ROOT-->
-  <!ELEMENT root (head, (fam* | indi*), trlr)>
-
+  <!ELEMENT root (head, (fam | indi)*, trlr)>
 
 
 <!--HEAD-->
@@ -9,7 +8,7 @@
     
 
 <!--FAM-->
-  <!ELEMENT fam ( husb | wife | chil* | marr? | obje?) >
+  <!ELEMENT fam ( husb , wife , chil* , marr? , obje?) >
   <!ATTLIST fam id ID #REQUIRED>
  
   <!--HUSB-->
@@ -30,15 +29,15 @@
     <!ELEMENT plac (#PCDATA)>
    
   <!--OBJE-->
-    <!ELEMENT obje (file,title)>
-    <!ELEMENT file (form)>
+    <!ELEMENT obje (file,titl)>
+    <!ELEMENT file (#PCDATA | form)*>
     <!ELEMENT form (#PCDATA)>
     <!ELEMENT titl (#PCDATA)>
 
 
 
 <!--INDI-->
-  <!ELEMENT indi (name, sex, famc?, obje?)>
+  <!ELEMENT indi (name, title?, sex, birt?, deat?, famc?, fams?, obje?)>
   <!ATTLIST indi id ID #REQUIRED>
 
   <!--NAME-->
@@ -47,16 +46,24 @@
   <!--SEX-->
     <!ELEMENT sex (#PCDATA)>
 
+  <!--BIRT-->
+    <!ELEMENT birt (date,plac)>
+    <!ELEMENT date (#PCDATA)>
+    <!ELEMENT plac (#PCDATA)>
+
+  <!--DEAT-->
+    <!ELEMENT deat (date,plac)>
+  
   <!--FAMC-->
     <!ELEMENT famc EMPTY>
-    <!ATTLIST famc id ID #REQUIRED>
+    <!ATTLIST famc idref IDREF #REQUIRED>
 
  <!--FAMS-->
-    <!ELEMENT famc EMPTY>
-    <!ATTLIST fams id ID #REQUIRED>
+    <!ELEMENT fams EMPTY>
+    <!ATTLIST fams idref IDREF #REQUIRED>
 
 
 
 
 <!--TRLR-->
-  <!ELEMENT head (#PCDATA)>
+  <!ELEMENT trlr (#PCDATA)>
