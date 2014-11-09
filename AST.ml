@@ -5,30 +5,34 @@ type t =
   | Tag of string
   | EOF
 
+let buffer = Buffer.create 100000
+let add = Buffer.add_string buffer
 
-let entete = ""
-(* "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n" *)
+let entete = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n"
 
 let rec print_tab n =
   if n = 0
-  then ""
-  else "\t" ^ (print_tab (n-1))
+  then ()
+  else
+    begin
+      add "\t";
+      (print_tab (n-1))
+    end
 
-
-let print_info s n = (print_tab n) ^ s ^ "\n"
+let info s n = print_tab n;
+	       add s;
+	       add "\n"
 
 let sub s = String.(sub s 1 (length s -2))
 
 let attribut = List.fold_left (fun s (attr,value) -> Printf.sprintf " %s=\"%s\"%s" attr (sub value) s) ""
 
-let balise prefix suffix attr tab s = Printf.sprintf "%s<%s%s%s%s>\n"
-						     (print_tab tab)
-						     prefix
-						     (String.lowercase s)
-						     (attribut attr)
-						     suffix
-
-
+let balise prefix suffix attr tab s = (print_tab tab);
+				      add (Printf.sprintf "<%s%s%s%s>\n"
+							  prefix
+							  (String.lowercase s)
+							  (attribut attr)
+							  suffix)
 
 let c_balise = balise "/" "" []
 let o_balise = balise "" ""  []
@@ -37,32 +41,37 @@ let o_balise = balise "" ""  []
 let c_attribute = balise "" "/"
 let attribute   = balise "" ""
 
-let rec to_string =
-  function
-  | Niv i::l  -> entete ^ (o_balise 0 "root") ^ (to_string' i ["root"] l)
-  | [EOF]     -> ""
-  | _ -> assert false
+let rec to_string ast =
+  let _ = match ast with
+    | Niv i::l  -> add entete;
+		   (o_balise 0 "root");
+		   (to_string' i ["root"] l)
+    | [EOF]     -> ()
+    | _ -> assert false
+  in
+  buffer
 
 and to_string' niv balises =
   function
   | Niv i::l        -> if i <= niv
 		       then close (niv-i) i balises l
 		       else to_string' i balises l
-  | Id id::Tag s::l -> tag_to_string s (Some id) niv balises l
-  | Info s::l       -> print_info s niv ^ to_string' niv balises l
-  | Tag s::l        -> tag_to_string s None niv balises l
-  | EOF::l          -> close_all niv balises l
+  | Id id::Tag s::l -> tag s (Some id) niv balises l
+  | Info s::l       -> info s niv;
+		       to_string' niv balises l
+  | Tag s::l        -> tag s None niv balises l
+  | EOF::l          -> close_all  niv balises l
 
 and close n niv balises l = match n,balises with
-  | 0,[] -> ""
+  | 0,[] -> ()
   | n,"/"::balises    when n >= 0 -> close (n-1) niv balises l
-  | n,balise::balises when n >= 0 -> (c_balise (niv+n) balise)
-				     ^ close (n-1) niv balises l
+  | n,balise::balises when n >= 0 -> c_balise (niv+n) balise;
+				     close (n-1) niv balises l
   | n, balises -> to_string' niv balises l
 
 and close_all n l = close (List.length l) n l
 
-and tag_to_string s id niv balises l =
+and tag s id niv balises l =
   match s with
   | "HUSB"
   | "WIFE"
@@ -70,11 +79,11 @@ and tag_to_string s id niv balises l =
   | "FAMC"
   | "FAMS" as s ->
      let (Id id)::l = l in
-     (c_attribute ["idref",id] niv s)
-     ^ to_string' niv ("/"::balises) l
+     c_attribute ["idref",id] niv s;
+     to_string' niv ("/"::balises) l
 
-  | _ as s -> let balise = match id with
+  | _ as s -> let bal = match id with
 		| None -> o_balise niv s
 		| Some id -> attribute ["id",id] niv s
 	      in
-	      balise ^ (to_string' niv (s::balises) l)
+	      to_string' niv (s::balises) l

@@ -13,24 +13,27 @@ let info_keywords = "INDI" | "FAM" | "NAME" | "TITL" | "SEX" | "PLAC"
 	       | "CHR" | "OBJE" | "FILE" | "FORM" | "HEAD" | "TRLR"
 	       | "SOUR" | "VERS" | "VERS" | "CONT" | "CORP" | "ADDR"
 	       | "PHON" | "DEST" | "CHAR" | "GEDC"
+	       | "SUBM" | "COMM" | "REFN"
 
 let id_keywords = "HUSB" | "WIFE" | "FAMC" | "FAMS" | "CHIL"
 
 let ignore = blank | newline
 
-rule lexer = parse
-  | newline+ | blank+ { lexer lexbuf }
+
+rule lexer n =
+ parse
+  | newline+ | blank+ { lexer (n) lexbuf }
 
   (** Keywords *)
-  | id_keywords as s { Tag s::(lexer lexbuf) }
-  | info_keywords as s { Tag s::(information lexbuf) }
+  | id_keywords as s { Tag s::(lexer (n) lexbuf) }
+  | info_keywords as s { Tag s::(information (n) lexbuf) }
 
-  | digit+ as n { Niv (int_of_string n)::lexer lexbuf }
-  | '@' alphanum+ '@' as s { Id s::lexer lexbuf }
+  | digit+ as i { Niv (int_of_string i)::lexer (n+1) lexbuf }
+  | '@' alphanum+ '@' as s { Id s::lexer (n) lexbuf }
 
   | eof { [EOF] }
-  | _ as c { failwith (Printf.sprintf "Erreur charcater %c " c) }
+  | _ as c { failwith (Printf.sprintf "Erreur charcater %c, ligne %d" c n) }
 
-and information = parse
-  | [^'\n']+ as s { Info s::lexer lexbuf }
-  | '\n' { lexer lexbuf }
+and information n = parse
+  | [^'\n']+ as s { Info s::lexer (n) lexbuf }
+  | '\n' { lexer (n) lexbuf }
