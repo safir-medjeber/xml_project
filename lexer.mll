@@ -40,4 +40,4 @@ rule lexer n =
 and information s n = parse
   | '&' { information (s^"&amp;") n lexbuf }
   | [^'\n''&']+ as s' { information (s^s') (n) lexbuf }
-  | '\n' { lexer (n) lexbuf }
+  | '\n' { Info s::lexer (n) lexbuf }
