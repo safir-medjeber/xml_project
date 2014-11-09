@@ -11,6 +11,8 @@ let alphanum = alpha | digit | '_'
 let info_keywords = "INDI" | "FAM" | "NAME" | "TITL" | "SEX" | "PLAC"
 	       | "DATE" | "DIV" | "BIRT" | "DEAT" | "BURI" | "MARR"
 	       | "CHR" | "OBJE" | "FILE" | "FORM" | "HEAD" | "TRLR"
+	       | "SOUR" | "VERS" | "VERS" | "CONT" | "CORP" | "ADDR"
+	       | "PHON" | "DEST" | "CHAR" | "GEDC"
 
 let id_keywords = "HUSB" | "WIFE" | "FAMC" | "FAMS" | "CHIL"
 

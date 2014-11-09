@@ -21,3 +21,9 @@ lexer.mll: AST.ml
 
 lexer.cmo: AST.cmo
 main.cmo: AST.cmo lexer.cmo
+
+clean: clear
+	rm -fr convert
+
+clear:
+	rm -fr lexer.ml *.cmo *.cmi *~
