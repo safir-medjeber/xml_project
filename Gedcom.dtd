@@ -1,11 +1,30 @@
 <!--ROOT-->
-  <!ELEMENT root (head, (fam | indi)*, trlr)>
+  <!ELEMENT root (head, subm?,( fam | indi)*, trlr)>
 
 
 <!--HEAD-->
-  <!ELEMENT head (#PCDATA)>
+  <!ELEMENT head (sour, dest, date, file, char)*>
+  <!ELEMENT sour (#PCDATA)>
+  <!ELEMENT dest (#PCDATA)>
+  <!ELEMENT date (#PCDATA)>
+  <!ELEMENT file (#PCDATA | form)*>
+  <!ELEMENT form (#PCDATA)>
+  <!ELEMENT char (#PCDATA)>
 
-    
+
+
+<!--SUBM-->
+  <!ELEMENT subm (name, addr, phon, comm) >
+  <!ATTLIST subm id ID #REQUIRED>
+  <!ELEMENT name (#PCDATA)>
+  <!ELEMENT addr (#PCDATA | cont)*>
+  <!ELEMENT phon (#PCDATA)>
+  <!ELEMENT comm (#PCDATA | cont)*>
+  <!ELEMENT cont (#PCDATA)>
+
+
+
+
 
 <!--FAM-->
   <!ELEMENT fam ( husb , wife , chil* , marr? , obje?) >
@@ -25,35 +44,33 @@
  
   <!--MARR-->
     <!ELEMENT marr (date,plac)>
-    <!ELEMENT date (#PCDATA)>
     <!ELEMENT plac (#PCDATA)>
    
   <!--OBJE-->
     <!ELEMENT obje (file,titl)>
-    <!ELEMENT file (#PCDATA | form)*>
-    <!ELEMENT form (#PCDATA)>
     <!ELEMENT titl (#PCDATA)>
 
 
 
 <!--INDI-->
-  <!ELEMENT indi (name, title?, sex, birt?, deat?, famc?, fams?, obje?)>
+  <!ELEMENT indi (name, titl?, sex, birt?, deat?, buri?, rfn?, (famc?| fams?)*, obje?)>
   <!ATTLIST indi id ID #REQUIRED>
-
-  <!--NAME-->
-    <!ELEMENT name (#PCDATA)>
-
+  
   <!--SEX-->
     <!ELEMENT sex (#PCDATA)>
-
+  
   <!--BIRT-->
     <!ELEMENT birt (date,plac)>
-    <!ELEMENT date (#PCDATA)>
-    <!ELEMENT plac (#PCDATA)>
-
+    
   <!--DEAT-->
     <!ELEMENT deat (date,plac)>
   
+  <!--BURI-->
+    <!ELEMENT buri (plac)>
+
+  <!--RFN-->
+    <!ELEMENT rfn (#PCDATA)>
+
   <!--FAMC-->
     <!ELEMENT famc EMPTY>
     <!ATTLIST famc idref IDREF #REQUIRED>
