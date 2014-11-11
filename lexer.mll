@@ -39,5 +39,5 @@ rule lexer n =
 
 and information s n = parse
   | '&' { information (s^"&amp;") n lexbuf }
-  | [^'\n''&']+ as s' { information (s^s') (n) lexbuf }
-  | '\n' { Info s::lexer (n) lexbuf }
+  | [^ '\010' '\013' '&']+ as s' { information (s^s') (n) lexbuf }
+  | newline { Info s::lexer (n) lexbuf }
