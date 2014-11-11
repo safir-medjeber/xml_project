@@ -27,7 +27,7 @@
 
 
 <!--FAM-->
-  <!ELEMENT fam ( husb , wife , chil* , marr? , obje?) >
+  <!ELEMENT fam ( husb? , wife? , chil* , div?, marr? , obje?) >
   <!ATTLIST fam id ID #REQUIRED>
  
   <!--HUSB-->
@@ -42,8 +42,11 @@
     <!ELEMENT chil EMPTY>
     <!ATTLIST chil idref IDREF  #REQUIRED>
  
+  <!--DIV--> 
+    <!ELEMENT div (#PCDATA)>
+  
   <!--MARR-->
-    <!ELEMENT marr (date,plac)>
+    <!ELEMENT marr (date,plac?)>
     <!ELEMENT plac (#PCDATA)>
    
   <!--OBJE-->
@@ -53,23 +56,26 @@
 
 
 <!--INDI-->
-  <!ELEMENT indi (name, titl?, sex, birt?, deat?, buri?, rfn?, (famc?| fams?)*, obje?)>
+  <!ELEMENT indi (name, titl?, sex?, birt?, chr?, deat?, buri?, refn?, (famc?| fams?)*, obje?)>
   <!ATTLIST indi id ID #REQUIRED>
   
   <!--SEX-->
     <!ELEMENT sex (#PCDATA)>
   
   <!--BIRT-->
-    <!ELEMENT birt (date,plac)>
+    <!ELEMENT birt (date?, plac?)>
+
+ <!--CHR-->
+    <!ELEMENT chr (date?, plac?)>
     
   <!--DEAT-->
-    <!ELEMENT deat (date,plac)>
+    <!ELEMENT deat (date, plac?)>
   
   <!--BURI-->
-    <!ELEMENT buri (plac)>
+    <!ELEMENT buri (date?, plac)>
 
-  <!--RFN-->
-    <!ELEMENT rfn (#PCDATA)>
+  <!--REFN-->
+    <!ELEMENT refn (#PCDATA)>
 
   <!--FAMC-->
     <!ELEMENT famc EMPTY>
