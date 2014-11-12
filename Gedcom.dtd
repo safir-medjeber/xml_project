@@ -1,13 +1,14 @@
 <!--ROOT-->
-  <!ELEMENT root (head, subm?,( fam | indi)*, trlr)>
+  <!ELEMENT root (head, sour*, subm?,( fam | indi)*, trlr)>
 
 
 <!--HEAD-->
-  <!ELEMENT head (sour, dest, date, file, char)*>
+  <!ELEMENT head (sour, dest?, date, file, char?)*>
   <!ELEMENT sour (#PCDATA)>
+  <!ATTLIST sour id ID #IMPLIED>
   <!ELEMENT dest (#PCDATA)>
   <!ELEMENT date (#PCDATA)>
-  <!ELEMENT file (#PCDATA | form)*>
+  <!ELEMENT file (#PCDATA | form | numb)*>
   <!ELEMENT form (#PCDATA)>
   <!ELEMENT char (#PCDATA)>
 
@@ -22,13 +23,15 @@
   <!ELEMENT comm (#PCDATA | cont)*>
   <!ELEMENT cont (#PCDATA)>
 
-
-
-
-
 <!--FAM-->
-  <!ELEMENT fam ( husb? , wife? , chil* , div?, marr? , obje?) >
+  <!ELEMENT fam (sour?, chan?, numb?,( husb? | wife? | chil* | div? | marr? | misc? | enga? | anul)* , obje?) >
   <!ATTLIST fam id ID #REQUIRED>
+  
+  <!--CHAN--> 
+    <!ELEMENT chan (date)>
+
+  <!--NUMB--> 
+    <!ELEMENT numb (#PCDATA)>
  
   <!--HUSB-->
     <!ELEMENT husb EMPTY>
@@ -43,10 +46,20 @@
     <!ATTLIST chil idref IDREF  #REQUIRED>
  
   <!--DIV--> 
-    <!ELEMENT div (#PCDATA)>
-  
+    <!ELEMENT div (#PCDATA | quay)*>
+    <!ELEMENT quay (#PCDATA)>
+
+  <!--MISC--> 
+    <!ELEMENT misc (#PCDATA | date | sour | plac |  quay)*>
+
+  <!--ENGA--> 
+    <!ELEMENT enga (date, quay)>
+
+  <!--ANUL--> 
+    <!ELEMENT anul (date?, quay)>
+
   <!--MARR-->
-    <!ELEMENT marr (date,plac?)>
+    <!ELEMENT marr (date?, plac?, quay?)>
     <!ELEMENT plac (#PCDATA)>
    
   <!--OBJE-->
@@ -54,25 +67,39 @@
     <!ELEMENT titl (#PCDATA)>
 
 
-
 <!--INDI-->
-  <!ELEMENT indi (name, titl?, sex?, birt?, chr?, deat?, buri?, refn?, (famc?| fams?)*, obje?)>
+  <!ELEMENT indi (name?, titl?, sex?, ille?, stil?, sour?, chan?, numb?, birt?,  (chr |deat)* , bapm?, (buri | misc)*, attr?, occu?, refn?, (famc?| fams?)*, note?, obje?)>
   <!ATTLIST indi id ID #REQUIRED>
   
   <!--SEX-->
     <!ELEMENT sex (#PCDATA)>
+ 
+  <!--ILLE-->
+    <!ELEMENT ille (#PCDATA)> 
+     
+  <!--STIL-->
+    <!ELEMENT stil (#PCDATA)>
   
   <!--BIRT-->
-    <!ELEMENT birt (date?, plac?)>
+    <!ELEMENT birt (date?, plac?, quay?)>
 
  <!--CHR-->
-    <!ELEMENT chr (date?, plac?)>
+    <!ELEMENT chr (date?, plac?, quay?)>
     
   <!--DEAT-->
-    <!ELEMENT deat (date, plac?)>
+    <!ELEMENT deat (date?, plac?, quay?)>
   
+  <!--BAPM-->
+    <!ELEMENT bapm (date, plac?, quay)>
+
+  <!--ATTR-->
+    <!ELEMENT attr (#PCDATA)>
+
+  <!--OCCU-->
+    <!ELEMENT occu (#PCDATA)>
+
   <!--BURI-->
-    <!ELEMENT buri (date?, plac)>
+    <!ELEMENT buri (date?, plac?, quay?)>
 
   <!--REFN-->
     <!ELEMENT refn (#PCDATA)>
@@ -85,7 +112,8 @@
     <!ELEMENT fams EMPTY>
     <!ATTLIST fams idref IDREF #REQUIRED>
 
-
+ <!--NOTE-->
+    <!ELEMENT note (#PCDATA | cont)*>
 
 
 <!--TRLR-->
