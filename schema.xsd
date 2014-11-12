@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+  <xsd:simpleType name="FamId">
+    <xsd:restriction base="xsd:token">
+      <xsd:pattern value="F[0-9]+"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+
+  <xsd:complexType name="Fam">
+    <!-- TODO Faire dans n'importe quel ordre -->
+    <xsd:sequence>
+      <!-- TODO Type of -->
+      <xsd:element name="husb" type="xsd:anyType" minOccurs="0"/>
+      <!-- TODO Type of -->
+      <xsd:element name="wife" type="xsd:anyType" minOccurs="0"/>
+      <!-- TODO Type of -->
+      <xsd:element name="chil" type="xsd:anyType" minOccurs="0" maxOccurs="unbounded"/>
+      <!-- TODO Type of -->
+      <xsd:element name="obje" type="xsd:anyType" minOccurs="0"/>
+    </xsd:sequence>
+    <xsd:attribute name="id" use="required" type="FamId"/>
+  </xsd:complexType>
+
+
+  <xsd:element name="root">
+    <xsd:complexType>
+      <xsd:sequence>
+	<!-- TODO Type of head -->
+	<xsd:element name="head" type="xsd:anyType"/>
+	<xsd:choice minOccurs="0" maxOccurs="unbounded">
+	  <xsd:element name="fam" type="Fam"/>
+	  <!-- TODO Type of indi -->
+	  <xsd:element name="indi" type="xsd:anyType"/>
+	</xsd:choice>
+	<!-- TODO Type of trlr -->
+	<xsd:element name="trlr" type="xsd:anyType"/>
+      </xsd:sequence>
+    </xsd:complexType>
+
+    <!-- Contrainte d'unicité sur l'attribut id de fam -->
+    <xsd:unique name="UniqueFamId">
+      <xsd:selector xpath="./fam" />
+      <xsd:field xpath="@id" />
+    </xsd:unique>
+  </xsd:element>
+
+</xsd:schema>
