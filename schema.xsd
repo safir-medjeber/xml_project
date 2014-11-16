@@ -23,6 +23,51 @@
   </xsd:complexType>
 
 
+    
+
+
+
+
+
+
+
+<xsd:complexType name="Indi">
+    <!-- TODO Faire dans n'importe quel ordre -->
+    <xsd:sequence>
+      <xsd:element name="name" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+      <xsd:element name="chan" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+      <xsd:element name="husb" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+      <xsd:element name="wife" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+
+      <xsd:element name="chil" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+      <xsd:element name="div" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+      <xsd:element name="marr" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+
+      <xsd:element name="misc" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+      <xsd:element name="enga" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+      <xsd:element name="anul" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+      <xsd:element name="obje" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+
+    </xsd:sequence>
+    </xsd:complexType>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   <xsd:element name="root">
     <xsd:complexType>
       <xsd:sequence>
@@ -30,6 +75,8 @@
 	<xsd:element name="head" type="xsd:anyType"/>
 	<xsd:choice minOccurs="0" maxOccurs="unbounded">
 	  <xsd:element name="fam" type="Fam"/>
+	  <xsd:element name="indi" type="Indi"/>
+
 	  <!-- TODO Type of indi -->
 	  <xsd:element name="indi" type="xsd:anyType"/>
 	</xsd:choice>
