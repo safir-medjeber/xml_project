@@ -34,7 +34,7 @@
 
   <xsd:simpleType name="Date">
     <xsd:restriction base="xsd:token">
-      <xsd:pattern value="[1-9 10-31].*[(JAN|FEV|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC)]\s[1-9 10-99 100-999 1000-2200].*"/>
+      <xsd:pattern value="[1-9 10-31]?.*[(JAN|FEV|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC)]?\s[1-9 10-99 100-999 1000-2200]?.*"/>
     </xsd:restriction>
   </xsd:simpleType>
 
@@ -47,28 +47,7 @@
     </xsd:restriction>
   </xsd:simpleType>
 
-  <xsd:complexType name="Indi">
-    <xsd:sequence>
-      <xsd:element name="name" type="xsd:string" minOccurs="0" maxOccurs="1"/>
-      <xsd:element name="sex" type="Sex" minOccurs="0" maxOccurs="1"/>
-      <xsd:element name="birt" type="DatePlace" minOccurs="0" maxOccurs="1"/>
-      <xsd:element name="deat" type="DatePlace" minOccurs="0" maxOccurs="1"/>
-      <xsd:element name="famc" type="AttributFAM" minOccurs="0" maxOccurs="1"/>
-      <xsd:element name="fams" type="AttributFAM" minOccurs="0" maxOccurs="1"/>
-    </xsd:sequence>
-    <xsd:attribute name="id" use="required" type="IndiID"/>
-  </xsd:complexType>
   
-
-  <xsd:complexType name="Fam">
-    <xsd:sequence>
-      <xsd:element name="husb" type="AttributINDI" minOccurs="0"/>
-      <xsd:element name="wife" type="AttributINDI" minOccurs="0"/>
-      <xsd:element name="chil" type="AttributINDI" minOccurs="0" maxOccurs="unbounded"/>
-      <xsd:element name="marr" type="DatePlace" minOccurs="0" maxOccurs="1"/>    
-    </xsd:sequence>
-    <xsd:attribute name="id" use="required" type="FamID"/>
-  </xsd:complexType>
 
 
   <xsd:complexType name="Addr" mixed="true">
@@ -99,12 +78,49 @@
     </xsd:sequence>
   </xsd:complexType>
 
-  <xsd:simpleType name="File">
-    <xsd:restriction base="xsd:string">
-      <xsd:whiteSpace value="collapse"/>
-      <xsd:pattern value="([a-z])*.ged"/>
-    </xsd:restriction>
-  </xsd:simpleType>
+  <xsd:complexType name="File" mixed="true">
+    <xsd:sequence>   
+      <xsd:element name="form" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+
+
+  <xsd:complexType name="Obje">
+    <xsd:sequence>
+      <xsd:element name="file" type="File" minOccurs="0" maxOccurs="1"/>
+      <xsd:element name="form" type="xsd:string" minOccurs="0" maxOccurs="1"/>  
+      <xsd:element name="titl" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="Indi">
+    <xsd:sequence>
+      <xsd:element name="name" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+      <xsd:element name="sex" type="Sex" minOccurs="0" maxOccurs="1"/>
+      <xsd:element name="birt" type="DatePlace" minOccurs="0" maxOccurs="1"/>
+      <xsd:element name="deat" type="DatePlace" minOccurs="0" maxOccurs="1"/>
+      <xsd:element name="famc" type="AttributFAM" minOccurs="0" maxOccurs="1"/>
+      <xsd:element name="fams" type="AttributFAM" minOccurs="0" maxOccurs="1"/>
+      <xsd:element name="obje" type="Obje" minOccurs="0" maxOccurs="1"/>    
+
+    </xsd:sequence>
+    <xsd:attribute name="id" use="required" type="IndiID"/>
+  </xsd:complexType>
+  
+
+  <xsd:complexType name="Fam">
+    <xsd:sequence>
+      <xsd:element name="husb" type="AttributINDI" minOccurs="0"/>
+      <xsd:element name="wife" type="AttributINDI" minOccurs="0"/>
+      <xsd:element name="chil" type="AttributINDI" minOccurs="0" maxOccurs="unbounded"/>
+      <xsd:element name="marr" type="DatePlace" minOccurs="0" maxOccurs="1"/>    
+      <xsd:element name="obje" type="Obje" minOccurs="0" maxOccurs="1"/>    
+      
+    </xsd:sequence>
+    <xsd:attribute name="id" use="required" type="FamID"/>
+  </xsd:complexType>
+
 
   <xsd:complexType name="Head">
     <xsd:sequence>
@@ -114,7 +130,6 @@
       <xsd:element name="char" type="xsd:string" minOccurs="0" maxOccurs="1"/>
       <xsd:element name="file" type="File" minOccurs="0" maxOccurs="1"/>
       <xsd:element name="gedc" type="Gedc" minOccurs="0" maxOccurs="1"/>
-
     </xsd:sequence>
   </xsd:complexType>
 
