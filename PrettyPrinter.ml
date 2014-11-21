@@ -39,7 +39,6 @@ let print_tree l =
   let rec aux n = function
     | Nil -> ()
     | Noeud(Balise(tag, atts, data), l) ->
-       (print_string ("<<"^tag^">>\n"));
        if l = [] && data = ""
        then closed_balise atts n tag
        else begin
