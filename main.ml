@@ -13,8 +13,8 @@ let convert filename =
   let suffix   = ged_suffix filename in
   let fic      = open_fic filename  in
   let lexbuf   = Lexing.from_channel fic in
-  let ast      =  Lexer.lexer 1 lexbuf in
-  let xml      = ( AST.to_string ast ) in
+  let ast      = Lexer.lexer 1 lexbuf in
+  let xml      = (PrettyPrinter.print_tree ast) in
   let filename = suffix ^ ".xml" in
   let fic      = open_out filename in
   Buffer.output_buffer fic xml;

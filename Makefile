@@ -1,11 +1,11 @@
 OCAMLC=ocamlc
 OCAMLLEX=ocamllex
-SOURCES = AST.ml lexer.ml main.ml
-                                                                               OBJECTS = $(SOURCES:.ml=.cmo)
+SOURCES = AST.ml lexer.ml PrettyPrinter.ml main.ml
+OBJECTS = $(SOURCES:.ml=.cmo)
 
 all: convert
 
-convert: AST.cmo lexer.cmo main.cmo
+convert: $(OBJECTS)
 	$(OCAMLC) -o $@ $(OBJECTS)
 
 %.cmo: %.ml
@@ -20,7 +20,9 @@ convert: AST.cmo lexer.cmo main.cmo
 lexer.mll: AST.ml
 
 lexer.cmo: AST.cmo
+PrettyPrinter.cmo: AST.cmo
 main.cmo: AST.cmo lexer.cmo
+
 
 clean: clear
 	rm -fr convert

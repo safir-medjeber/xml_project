@@ -5,85 +5,81 @@ type t =
   | Tag of string
   | EOF
 
-let buffer = Buffer.create 100000
-let add = Buffer.add_string buffer
+type balise = Balise of name * attributes * data
+and  name = string
+and attributes = (string * string) list
+and data = string
 
-let entete = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n"
+type 'a tree = Noeud of 'a * 'a tree list | Nil
 
-let rec print_tab n =
-  if n = 0
-  then ()
-  else
-    begin
-      add "\t";
-      (print_tab (n-1))
-    end
+let add_att  (Balise(name, atts, data)) id value = Balise(name, (id,value)::atts, data)
+let set_info (Balise(name, atts, data)) info = Balise(name, atts, info)
+let set_tag  (Balise(name, atts, data)) tag = Balise(tag, atts, data)
 
-let info s n = print_tab n;
-	       add s;
-	       add "\n"
-
-let sub s = String.(sub s 1 (length s -2))
-
-let attribut = List.fold_left (fun s (attr,value) -> Printf.sprintf " %s=\"%s\"%s" attr (sub value) s) ""
-
-let balise prefix suffix attr tab s = (print_tab tab);
-				      add (Printf.sprintf "<%s%s%s%s>\n"
-							  prefix
-							  (String.lowercase s)
-							  (attribut attr)
-							  suffix)
-
-let c_balise = balise "/" "" []
-let o_balise = balise "" ""  []
-
-
-let c_attribute = balise "" "/"
-let attribute   = balise "" ""
-
-let rec to_string ast =
-  let _ = match ast with
-    | Niv i::l  -> add entete;
-		   (o_balise 0 "root");
-		   (to_string' i ["root"] l)
-    | [EOF]     -> ()
-    | _ -> assert false
+let to_balise =
+  let rec aux balise before = function
+    | EOF::_
+    |  []       -> balise
+    | Id id::l  -> if before
+		   then aux (add_att balise "id" id) before l
+		   else aux (add_att balise "idref" id) before l
+    | Info s::l -> aux (set_info balise s) before l
+    | Tag s::l  -> aux (set_tag balise s) false l
+    | Niv _::_  -> assert false (* Delete all niv before *)
   in
-  buffer
+  aux (Balise("", [], "")) true
 
-and to_string' niv balises =
+let rec split = function
+  | [] -> []
+  | Niv i::l -> let l,r = ligne l
+		     in (i,to_balise l)::split r
+  | _ -> assert false
+
+and ligne l =
+  let rec aux res = function
+    | [] -> res, []
+    | Niv i::_ as l -> res, l
+    | x::l          -> aux (x::res) l
+  in
+  aux [] l
+
+
+let find_tag =
   function
-  | Niv i::l        -> if i <= niv
-		       then close (niv-i) i balises l
-		       else to_string' i balises l
-  | Id id::Tag s::l -> tag s (Some id) niv balises l
-  | Info s::l       -> info s niv;
-		       to_string' niv balises l
-  | Tag s::l        -> tag s None niv balises l
-  | EOF::l          -> close_all  niv balises l
+  | Noeud(Balise(tag,_,_), _ ) -> tag
+  | _ -> ""
 
-and close n niv balises l = match n,balises with
-  | 0,[] -> ()
-  | n,"/"::balises    when n >= 0 -> close (n-1) niv balises l
-  | n,balise::balises when n >= 0 -> c_balise (niv+n) balise;
-				     close (n-1) niv balises l
-  | n, balises -> to_string' niv balises l
+let insert x l =
+  let xTag = find_tag x in
+  let rec aux = function
+    | []   -> [x]
+    | y::l ->
+       let yTag = find_tag y in
+       if xTag > yTag
+       then y::(aux l)
+       else x::y::l
 
-and close_all n l = close (List.length l) n l
+  in
+  aux l
 
-and tag s id niv balises l =
-  match s with
-  | "HUSB"
-  | "WIFE"
-  | "CHIL"
-  | "FAMC"
-  | "FAMS" as s ->
-     let (Id id)::l = l in
-     c_attribute ["idref",id] niv s;
-     to_string' niv ("/"::balises) l
+let rec next l niv =
+  match l with
+  | [] -> (Nil, [])
+  | (n, _) :: _ when n <= niv -> (Nil, l)
+  | (n, balise) :: l' ->
+     let (children, rest) = create_abr l' n in
+     (Noeud (balise, children), rest)
 
-  | _ as s -> let bal = match id with
-		| None -> o_balise niv s
-		| Some id -> attribute ["id",id] niv s
-	      in
-	      to_string' niv (s::balises) l
+and create_abr l niv =
+  let (abr, rest) = next l niv in
+  match abr with
+  | Nil -> ([], rest)
+  | noeud ->
+     let (abr, rest) = create_abr rest niv in
+     (insert noeud abr, rest)
+
+let list2tree l =
+  let l = split (Niv (-1)::Tag "root"::l) in
+  match (fst (create_abr l (-2))) with
+  | [] -> Nil
+  | hd :: tl -> hd
