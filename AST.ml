@@ -21,8 +21,8 @@ let to_balise =
     | EOF::_
     |  []       -> balise
     | Id id::l  -> if before
-		   then aux (add_att balise "id" id) before l
-		   else aux (add_att balise "idref" id) before l
+		   then aux (add_att balise "idref" id) before l
+		   else aux (add_att balise "id" id) before l
     | Info s::l -> aux (set_info balise s) before l
     | Tag s::l  -> aux (set_tag balise s) false l
     | Niv _::_  -> assert false (* Delete all niv before *)
@@ -51,15 +51,20 @@ let find_tag =
 
 let insert x l =
   let xTag = find_tag x in
-  let rec aux = function
-    | []   -> [x]
-    | y::l ->
-       let yTag = find_tag y in
-       if xTag > yTag
-       then y::(aux l)
-       else x::y::l
-
-  in
+  if xTag = "INDI" || xTag = "FAM"
+     || xTag = "HEAD" || xTag = "TRLR"
+  then x::l
+  else if xTag = ""
+  then l
+  else
+    let rec aux = function
+      | []   -> [x]
+      | y::l ->
+	 let yTag = find_tag y in
+	 if xTag > yTag
+	 then y::(aux l)
+	 else x::y::l
+    in
   aux l
 
 let rec next l niv =
