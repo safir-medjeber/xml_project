@@ -77,7 +77,7 @@
   
        
     
-    <!ELEMENT indi (bapm?, attr?, birt?, buri?, chan?, chr?, deat?, famc?, fams*, ille?, misc*, name?, note?, numb?, obje?, occu?, refn?, sex?, sour?, stil?, titl?)>
+    <!ELEMENT indi (attr?, bapm?, birt?, buri?, chan?, chr?, deat?, famc?, fams*, ille?, misc*, name?, note?, numb?, obje?, occu?, refn?, sex?, sour?, stil?, titl?)>
       <!ATTLIST indi id ID #REQUIRED>
        
       <!--ATTR-->
