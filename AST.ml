@@ -13,12 +13,11 @@ and data = string
 type 'a tree = Noeud of 'a * 'a tree list | Nil
 
 let add_att  (Balise(name, atts, data)) id value = Balise(name, (id,value)::atts, data)
-let set_info (Balise(name, atts, data)) info = Balise(name, atts, info)
-let set_tag  (Balise(name, atts, data)) tag = Balise(tag, atts, data)
+let set_info (Balise(name, atts, _)) info = Balise(name, atts, info)
+let set_tag  (Balise(_, atts, data)) tag = Balise(tag, atts, data)
 
 let to_balise =
   let rec aux balise before = function
-    | EOF::_
     |  []       -> balise
     | Id id::l  -> if before
 		   then aux (add_att balise "idref" id) before l
@@ -32,13 +31,14 @@ let to_balise =
 let rec split = function
   | [] -> []
   | Niv i::l -> let l,r = ligne l
-		     in (i,to_balise l)::split r
+		in (i,to_balise l)::(split r)
   | _ -> assert false
 
 and ligne l =
   let rec aux res = function
-    | [] -> res, []
-    | Niv i::_ as l -> res, l
+    | []    -> assert false (* doit finir par [EOF]*)
+    | [EOF] -> res, []
+    | Niv _::_ as w -> res, w
     | x::l          -> aux (x::res) l
   in
   aux [] l
@@ -49,13 +49,10 @@ let find_tag =
   | Noeud(Balise(tag,_,_), _ ) -> tag
   | _ -> ""
 
-let insert x l =
+let insert x l n =
   let xTag = find_tag x in
-  if xTag = "INDI" || xTag = "FAM"
-     || xTag = "HEAD" || xTag = "TRLR"
+  if n < 0
   then x::l
-  else if xTag = ""
-  then l
   else
     let rec aux = function
       | []   -> [x]
@@ -81,7 +78,7 @@ and create_abr l niv =
   | Nil -> ([], rest)
   | noeud ->
      let (abr, rest) = create_abr rest niv in
-     (insert noeud abr, rest)
+     (insert noeud abr niv, rest)
 
 let list2tree l =
   let l = split (Niv (-1)::Tag "root"::l) in
