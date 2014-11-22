@@ -1,30 +1,29 @@
 <!--ROOT-->
-  <!ELEMENT root (head, sour*, subm?,( fam | indi)*, trlr)>
-
+  <!ELEMENT root (head,(indi*| fam)*,sour*,subm?, trlr?)*>
 
 <!--HEAD-->
-  <!ELEMENT head (sour, dest?, date, file, char?)*>
-  <!ELEMENT sour (#PCDATA)>
-  <!ATTLIST sour id ID #IMPLIED>
-  <!ELEMENT dest (#PCDATA)>
-  <!ELEMENT date (#PCDATA)>
-  <!ELEMENT file (#PCDATA | form | numb)*>
-  <!ELEMENT form (#PCDATA)>
+  <!ELEMENT head (char?, date, dest?, file, gedc?, sour)*>
   <!ELEMENT char (#PCDATA)>
-
+  <!ELEMENT date (#PCDATA)>
+  <!ELEMENT dest (#PCDATA)>
+  <!ELEMENT file (#PCDATA | form | numb)*>
+     <!ELEMENT form (#PCDATA)>
+  <!ELEMENT gedc (vers)*>
+     <!ELEMENT vers (#PCDATA)>
+  <!ELEMENT sour (#PCDATA | corp| name | vers)*>
+     <!ATTLIST sour id ID #IMPLIED>
+     <!ELEMENT corp (#PCDATA | addr | phon)*>
 
 
 <!--SUBM-->
-  <!ELEMENT subm (name, addr, phon, comm) >
+  <!ELEMENT subm (addr, comm, name, phon ) >
   <!ATTLIST subm id ID #REQUIRED>
-  <!ELEMENT name (#PCDATA)>
   <!ELEMENT addr (#PCDATA | cont)*>
-  <!ELEMENT phon (#PCDATA)>
   <!ELEMENT comm (#PCDATA | cont)*>
   <!ELEMENT cont (#PCDATA)>
-
-<!--FAM-->
-  <!ELEMENT fam (sour?, chan?, numb?,( husb? | wife? | chil* | div? | marr? | misc? | enga? | anul)* , obje?) >
+  <!ELEMENT name (#PCDATA)>
+  <!ELEMENT phon (#PCDATA)>
+  <!ELEMENT fam (anul?, chan?, chil*,div?, enga?, husb?, marr*,misc?, numb?, obje?, sour?, wife?) >
   <!ATTLIST fam id ID #REQUIRED>
   
   <!--CHAN--> 
@@ -63,12 +62,10 @@
     <!ELEMENT plac (#PCDATA)>
    
   <!--OBJE-->
-    <!ELEMENT obje (file,titl)>
+    <!ELEMENT obje (file, form?, titl)>
     <!ELEMENT titl (#PCDATA)>
 
-
-<!--INDI-->
-  <!ELEMENT indi (name?, titl?, sex?, ille?, stil?, sour?, chan?, numb?, birt?,  (chr |deat)* , bapm?, (buri | misc)*, attr?, occu?, refn?, (famc?| fams?)*, note?, obje?)>
+  <!ELEMENT indi (bapm?, attr?, birt?, buri?, chan?, chr?, deat?, famc?, fams*,ille?,misc*, name?, note?, numb?, obje?, occu?, refn?, sex?, sour?, stil?, titl?)>
   <!ATTLIST indi id ID #REQUIRED>
   
   <!--SEX-->
