@@ -1,0 +1,133 @@
+<!--ROOT (pas de trie de balises ici -->
+  <!ELEMENT root (head, sour*, subm*, (fam|indi)*, trlr)*>
+
+
+    <!--HEAD-->
+      <!ELEMENT head (char?, date, dest?, file, gedc?, sour)*>
+      <!ELEMENT char (#PCDATA)>
+      <!ELEMENT date (#PCDATA)>
+      <!ELEMENT dest (#PCDATA)>
+      <!ELEMENT file (#PCDATA | form | numb)*>
+      <!ELEMENT form (#PCDATA)>
+      <!ELEMENT gedc (vers)*>
+      <!ELEMENT vers (#PCDATA)>
+      <!ELEMENT sour (#PCDATA | corp | name | vers)*>
+      <!ATTLIST sour id ID #IMPLIED>
+      <!ELEMENT corp (#PCDATA | addr | phon)*>
+    
+    
+
+
+    <!--SUBM-->
+      <!ELEMENT subm (addr, comm, name, phon ) >
+      <!ATTLIST subm id ID #REQUIRED>
+      <!ELEMENT addr (#PCDATA | cont)*>
+      <!ELEMENT comm (#PCDATA | cont)*>
+      <!ELEMENT cont (#PCDATA)>
+      <!ELEMENT name (#PCDATA)>
+      <!ELEMENT phon (#PCDATA)>
+      
+    
+  
+    
+    <!ELEMENT fam (anul?, chan?, chil*,div?, enga?, husb?, marr*,misc?, numb?, obje?, sour?, wife?) >
+      <!ATTLIST fam id ID #REQUIRED>
+      
+      <!--ANUL--> 
+        <!ELEMENT anul (date?, quay)>
+    
+      <!--CHAN--> 
+        <!ELEMENT chan (date)>
+    
+      <!--CHIL-->
+        <!ELEMENT chil EMPTY>
+        <!ATTLIST chil idref IDREF  #REQUIRED>
+    
+      <!--DIV--> 
+        <!ELEMENT div (#PCDATA | quay)*>
+        <!ELEMENT quay (#PCDATA)>
+    
+      <!--ENGA--> 
+        <!ELEMENT enga (date, quay)>
+    
+      <!--HUSB-->
+        <!ELEMENT husb EMPTY>
+        <!ATTLIST husb idref IDREF #REQUIRED>
+    
+      <!--MARR-->
+        <!ELEMENT marr (date?, plac?, quay?)>
+        <!ELEMENT plac (#PCDATA)>
+    
+      <!--MISC--> 
+        <!ELEMENT misc (#PCDATA | date | sour | plac |  quay)*>
+    
+      <!--NUMB--> 
+        <!ELEMENT numb (#PCDATA)>
+      
+      <!--OBJE-->
+        <!ELEMENT obje (file, form?, titl)>
+        <!ELEMENT titl (#PCDATA)>
+    
+      <!--WIFE-->
+        <!ELEMENT wife EMPTY>
+        <!ATTLIST wife idref  IDREF #REQUIRED>
+     
+     
+     
+  
+       
+    
+    <!ELEMENT indi (bapm?, attr?, birt?, buri?, chan?, chr?, deat?, famc?, fams*, ille?, misc*, name?, note?, numb?, obje?, occu?, refn?, sex?, sour?, stil?, titl?)>
+      <!ATTLIST indi id ID #REQUIRED>
+       
+      <!--ATTR-->
+        <!ELEMENT attr (#PCDATA)>
+      
+      <!--BAPM-->
+        <!ELEMENT bapm (date, plac?, quay)>
+
+      <!--BIRT-->
+        <!ELEMENT birt (date?, plac?, quay?)>
+
+      <!--BURI-->
+        <!ELEMENT buri (date?, plac?, quay?)>
+
+      <!--CHR-->
+        <!ELEMENT chr (date?, plac?, quay?)>
+
+      <!--DEAT-->
+        <!ELEMENT deat (date?, plac?, quay?)>
+      
+      <!--FAMC-->
+        <!ELEMENT famc EMPTY>
+        <!ATTLIST famc idref IDREF #REQUIRED>
+    
+      <!--FAMS-->
+        <!ELEMENT fams EMPTY>
+        <!ATTLIST fams idref IDREF #REQUIRED>
+ 
+      <!--ILLE-->
+        <!ELEMENT ille (#PCDATA)> 
+
+      <!--NOTE--> 
+        <!ELEMENT note (#PCDATA | cont)*>
+     
+      <!--OCCU--> 
+        <!ELEMENT occu (#PCDATA)>
+      
+      <!--REFN-->
+        <!ELEMENT refn (#PCDATA)>
+    
+      <!--SEX-->
+        <!ELEMENT sex (#PCDATA)>
+       
+      <!--STIL-->
+        <!ELEMENT stil (#PCDATA)>
+    
+         
+    
+
+
+    <!--TRLR-->
+      <!ELEMENT trlr (#PCDATA)>
+                                            
