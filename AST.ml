@@ -23,9 +23,7 @@ let to_balise =
 		   then aux (add_att balise "idref" id) before l
 		   else aux (add_att balise "id" id) before l
     | Info s::l -> aux (set_info balise s) before l
-    | Tag s::l  ->
-       print_string ("<" ^ s ^ ">\n");
-       aux (set_tag balise s) false l
+    | Tag s::l  -> aux (set_tag balise s) false l
     | Niv _::_  -> assert false (* Delete all niv before *)
   in
   aux (Balise("", [], "")) true
@@ -38,6 +36,7 @@ let rec split = function
 
 and ligne l =
   let rec aux res = function
+    | []    -> assert false (* doit finir par [EOF]*)
     | [EOF] -> res, []
     | Niv _::_ as w -> res, w
     | x::l          -> aux (x::res) l
