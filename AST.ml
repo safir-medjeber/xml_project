@@ -13,18 +13,19 @@ and data = string
 type 'a tree = Noeud of 'a * 'a tree list | Nil
 
 let add_att  (Balise(name, atts, data)) id value = Balise(name, (id,value)::atts, data)
-let set_info (Balise(name, atts, data)) info = Balise(name, atts, info)
-let set_tag  (Balise(name, atts, data)) tag = Balise(tag, atts, data)
+let set_info (Balise(name, atts, _)) info = Balise(name, atts, info)
+let set_tag  (Balise(_, atts, data)) tag = Balise(tag, atts, data)
 
 let to_balise =
   let rec aux balise before = function
-    | EOF::_
     |  []       -> balise
     | Id id::l  -> if before
 		   then aux (add_att balise "idref" id) before l
 		   else aux (add_att balise "id" id) before l
     | Info s::l -> aux (set_info balise s) before l
-    | Tag s::l  -> aux (set_tag balise s) false l
+    | Tag s::l  ->
+       print_string ("<" ^ s ^ ">\n");
+       aux (set_tag balise s) false l
     | Niv _::_  -> assert false (* Delete all niv before *)
   in
   aux (Balise("", [], "")) true
@@ -32,13 +33,13 @@ let to_balise =
 let rec split = function
   | [] -> []
   | Niv i::l -> let l,r = ligne l
-		     in (i,to_balise l)::split r
+		in (i,to_balise l)::(split r)
   | _ -> assert false
 
 and ligne l =
   let rec aux res = function
-    | [] -> res, []
-    | Niv i::_ as l -> res, l
+    | [EOF] -> res, []
+    | Niv _::_ as w -> res, w
     | x::l          -> aux (x::res) l
   in
   aux [] l
@@ -54,8 +55,6 @@ let insert x l =
   if xTag = "INDI" || xTag = "FAM"
      || xTag = "HEAD" || xTag = "TRLR"
   then x::l
-  else if xTag = ""
-  then l
   else
     let rec aux = function
       | []   -> [x]
