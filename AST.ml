@@ -49,10 +49,9 @@ let find_tag =
   | Noeud(Balise(tag,_,_), _ ) -> tag
   | _ -> ""
 
-let insert x l =
+let insert x l n =
   let xTag = find_tag x in
-  if xTag = "INDI" || xTag = "FAM"
-     || xTag = "HEAD" || xTag = "TRLR"
+  if n < 0
   then x::l
   else
     let rec aux = function
@@ -79,7 +78,7 @@ and create_abr l niv =
   | Nil -> ([], rest)
   | noeud ->
      let (abr, rest) = create_abr rest niv in
-     (insert noeud abr, rest)
+     (insert noeud abr niv, rest)
 
 let list2tree l =
   let l = split (Niv (-1)::Tag "root"::l) in
