@@ -24,12 +24,13 @@
 <!ELEMENT addr (#PCDATA | cont)*>
 <!ELEMENT comm (#PCDATA | cont)*>
 <!ELEMENT cont (#PCDATA)>
-<!ELEMENT name (nom,sname?)>
+<!ELEMENT name (fname,lname?,nname?)>
 <!ELEMENT phon (#PCDATA)>
 
 
-<!ELEMENT nom  (#PCDATA)>
-<!ELEMENT sname (#PCDATA)>
+<!ELEMENT fname (#PCDATA)>
+<!ELEMENT lname (#PCDATA)>
+<!ELEMENT nname (#PCDATA)>
 
 
 

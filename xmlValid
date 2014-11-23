@@ -1,0 +1,42 @@
+#!/bin/bash
+
+schema=0
+dtd=0
+
+if [ $# -eq 0 ]
+then
+    schema=1
+else
+    for arg in $*
+    do
+	if [ ${arg} = "-dtd" ]
+	then
+	    dtd=1
+	fi
+	if [ ${arg} = "-schema" ]
+	then
+	    schema=1
+	fi
+    done
+fi
+
+xml=*.xml
+
+
+if [ ${dtd} -eq 1 ]
+then
+    for file in ${xml}
+    do
+	echo -n "dtd: "
+	xmllint --noout --dtdvalid gedcom.dtd ${file} && echo "${file} validates"
+    done
+fi
+
+if [ ${schema} -eq 1 ]
+then
+    for file in ${xml}
+    do
+	echo -n "schema: "
+	xmllint --noout --schema schema.xsd ${file}
+    done
+fi

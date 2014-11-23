@@ -1,0 +1,14 @@
+#!/bin/bash
+
+if [ ! -e ./convert ]
+then
+    make
+    make clear
+fi
+
+geds=*.ged
+
+for file in ${geds}
+do
+    ./convert ${file}
+done

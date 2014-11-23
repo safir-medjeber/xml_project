@@ -28,7 +28,7 @@ rule lexer n niv =
   | newline+ | blank+ { lexer n niv lexbuf }
 
   (** Keywords *)
-  | "NAME"        as s { Tag s::name n (niv+1) lexbuf }
+  | "NAME"        as s { Tag s::firstname n (niv+1) lexbuf }
   | id_keywords   as s { Tag s::(lexer n niv lexbuf) }
   | info_keywords as s { Tag s::(information "" n niv lexbuf) }
 
@@ -45,13 +45,16 @@ and information s n niv = parse
 	      then lexer n niv lexbuf
 	      else Info s::lexer n niv lexbuf }
 
-and name n niv = parse
-	   | [^ '\010' '\013' '/']+ as s { Niv niv::Tag "nom"::Info s::name n niv lexbuf }
-	   | '/' { surname n niv lexbuf }
+and firstname n niv = parse
+	   | [^ '\010' '\013' '/']+ as s { Niv niv::Tag "fname"::Info s::firstname n niv lexbuf }
+	   | '/' { lastname n niv lexbuf }
 	   | newline { lexer n (niv -1) lexbuf }
 
-and surname n niv = parse
-  | [^ '\010' '\013' '/']+ as s { Niv niv::Tag "sname"::Info s::name n niv lexbuf }
-  | '/' { name n niv lexbuf }
+and lastname n niv = parse
+  | [^ '\010' '\013' '/']+ as s { Niv niv::Tag "lname"::Info s::lastname n niv lexbuf }
+  | '/' { nickname n niv lexbuf }
   | newline { lexer n (niv -1) lexbuf }
 
+and nickname n niv = parse
+  |  [^ '\010' '\013' ]+ as s { Niv niv::Tag "nname"::Info s::nickname n niv lexbuf}
+  | newline { lexer n (niv -1) lexbuf }

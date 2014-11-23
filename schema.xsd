@@ -158,8 +158,9 @@
 
   <xsd:complexType name="Name">
     <xsd:sequence>
-      <xsd:element name="nom"   type="xsd:string" minOccurs="0"/>
-      <xsd:element name="sname" type="xsd:string" minOccurs="0"/>
+      <xsd:element name="fname" type="xsd:string" minOccurs="0"/>
+      <xsd:element name="lname" type="xsd:string" minOccurs="0"/>
+      <xsd:element name="nname" type="xsd:string" minOccurs="0"/>
     </xsd:sequence>
   </xsd:complexType>
 

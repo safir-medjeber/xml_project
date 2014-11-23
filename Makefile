@@ -23,7 +23,6 @@ lexer.cmo: AST.cmo
 PrettyPrinter.cmo: AST.cmo
 main.cmo: AST.cmo lexer.cmo
 
-
 clean: clear
 	rm -fr convert
 

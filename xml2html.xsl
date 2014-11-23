@@ -13,13 +13,15 @@
 	<table class="table">
 	  <thead>
 	    <tr>
-	      <th>Nom</th>
 	      <th>Prenom</th>
+	      <th>Nom</th>
 	      <th> ... </th>
 	    </tr>
 	  </thead>
 	  <tbody>
-	    <xsl:apply-templates select="indi"/>
+	    <xsl:apply-templates select="indi">
+	      <xsl:sort select="name/fname"/>
+	    </xsl:apply-templates>
 	  </tbody>
 	</table>
 	<h2>Famille</h2>
@@ -42,17 +44,13 @@
   <xsl:template match="indi">
     <xsl:element name="tr">
       <xsl:apply-templates select="@id" />
-      <xsl:apply-templates select="name"/>
+      <xsl:apply-templates select="name" />
     </xsl:element>
   </xsl:template>
 
-  <xsl:template match="indi/name">
-    <td>
-      <xsl:value-of select="nom"/>
-    </td>
-    <td>
-      <xsl:value-of select="sname"/>
-    </td>
+  <xsl:template match="name">
+    <td><xsl:value-of select="fname"/></td>
+    <td><xsl:value-of select="lname"/></td>
     <td> ... </td>
   </xsl:template>
 
@@ -62,7 +60,7 @@
       <td>
 	<xsl:element name="a">
 	  <xsl:apply-templates select="husb/@idref" />
-	  Husband
+	  <xsl:value-of select="/indi[@id = ]/name/fname" />
 	</xsl:element>
       </td>
       <td>
