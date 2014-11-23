@@ -116,7 +116,7 @@
     <xsd:sequence>
       <xsd:element name="addr" type="MixedCONT"/>
       <xsd:element name="comm" type="MixedCONT"/>
-      <xsd:element name="name" type="xsd:string"/>
+      <xsd:element name="name" type="Name"/>
       <xsd:element name="phon" type="xsd:string"/>
     </xsd:sequence>
     <xsd:attribute name="id" use="optional"  type="SubmID"/>
@@ -126,7 +126,7 @@
   <xsd:complexType name="Sour" mixed="true">
     <xsd:sequence>
       <xsd:element name="corp" type="Corp"        minOccurs="0"/>
-      <xsd:element name="name" type="xsd:string"  minOccurs="0"/>
+      <xsd:element name="name" type="Name"        minOccurs="0"/>
       <xsd:element name="vers" type="xsd:decimal" minOccurs="0"/>
     </xsd:sequence>
     <xsd:attribute name="id" use="optional" type="SubmID"/>
@@ -156,8 +156,12 @@
     </xsd:sequence>
   </xsd:complexType>
 
-
-
+  <xsd:complexType name="Name">
+    <xsd:sequence>
+      <xsd:element name="nom"   type="xsd:string" minOccurs="0"/>
+      <xsd:element name="sname" type="xsd:string" minOccurs="0"/>
+    </xsd:sequence>
+  </xsd:complexType>
 
 
   <xsd:complexType name="Indi">
@@ -173,7 +177,7 @@
       <xsd:element name="fams" type="AttributFAM"  minOccurs="0" maxOccurs="unbounded"/>
       <xsd:element name="ille" type="xsd:string"   minOccurs="0"/>
       <xsd:element name="misc" type="Misc"         minOccurs="0" maxOccurs="unbounded"/>
-      <xsd:element name="name" type="xsd:string"   minOccurs="0"/>
+      <xsd:element name="name" type="Name"         minOccurs="0"/>
       <xsd:element name="note" type="MixedCONT"    minOccurs="0"/>
       <xsd:element name="numb" type="xsd:integer"  minOccurs="0"/>
       <xsd:element name="obje" type="Obje"         minOccurs="0"/>

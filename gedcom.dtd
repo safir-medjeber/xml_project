@@ -1,4 +1,4 @@
-!<!--ROOT (pas de trie de balises ici -->
+<!--ROOT (pas de trie de balises ici -->
 <!ELEMENT root (head, sour*, subm*, (fam|indi)*, trlr)*>
 
 
@@ -24,9 +24,12 @@
 <!ELEMENT addr (#PCDATA | cont)*>
 <!ELEMENT comm (#PCDATA | cont)*>
 <!ELEMENT cont (#PCDATA)>
-<!ELEMENT name (#PCDATA)>
+<!ELEMENT name (nom,sname?)>
 <!ELEMENT phon (#PCDATA)>
 
+
+<!ELEMENT nom  (#PCDATA)>
+<!ELEMENT sname (#PCDATA)>
 
 
 
