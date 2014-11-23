@@ -58,34 +58,29 @@
     <xsl:element name="tr">
       <xsl:apply-templates select="@id" />
       <td>
-	<xsl:element name="a">
-	  <xsl:apply-templates select="husb/@idref" />
-	  <xsl:value-of select="/indi[@id = ]/name/fname" />
-	</xsl:element>
+	  <xsl:apply-templates select="husb" />
       </td>
       <td>
-	<xsl:element name="a">
-	  <xsl:apply-templates select="wife/@idref" />
-	  Wife
-	</xsl:element>
+	<xsl:apply-templates select="wife" />
       </td>
       <td>
 	<ul>
 	  <xsl:for-each select="chil">
 	    <li>
-	      <xsl:element name="a">
-		<xsl:apply-templates select="@idref"/>
-		child
-	      </xsl:element>
-	  </li>
+	      <xsl:apply-templates select="." />
+	    </li>
 	  </xsl:for-each>
 	</ul>
       </td>
     </xsl:element>
   </xsl:template>
 
-  <xsl:template match="*" name="a">
-
+  <xsl:template match="husb | wife | chil">
+    <xsl:element name="a">
+      <xsl:apply-templates select="@idref" />
+      <xsl:variable name="id" select="@idref" />
+      - <xsl:apply-templates select="../../indi[@id = $id]/name/fname" />
+    </xsl:element>
   </xsl:template>
 
   <xsl:template match="@id">
