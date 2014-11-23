@@ -26,6 +26,7 @@
 	    <tr>
 	      <th>Husband</th>
 	      <th>Wife</th>
+	      <th>Children</th>
 	    </tr>
 	  </thead>
 	  <tbody>
@@ -58,7 +59,23 @@
 	  Wife
 	</xsl:element>
       </td>
+      <td>
+	<ul>
+	  <xsl:for-each select="chil">
+	    <li>
+	      <xsl:element name="a">
+		<xsl:apply-templates select="@idref"/>
+		child
+	      </xsl:element>
+	  </li>
+	  </xsl:for-each>
+	</ul>
+      </td>
     </xsl:element>
+  </xsl:template>
+
+  <xsl:template match="*" name="a">
+
   </xsl:template>
 
   <xsl:template match="@id">

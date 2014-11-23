@@ -1,8 +1,6 @@
 <?xml version="1.0"?>
 <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 
-  
-
   <xsd:simpleType name="FamID">
     <xsd:restriction base="xsd:token">
       <xsd:pattern value="F[0-9]+"/>
@@ -23,65 +21,61 @@
 
   <xsd:complexType name="AttributFAM">
     <xsd:attribute name="idref" type="FamID" use="required"/>
-  </xsd:complexType>   
+  </xsd:complexType>
 
   <xsd:complexType name="AttributINDI">
     <xsd:attribute name="idref" type="IndiID" use="required"/>
-  </xsd:complexType>   
+  </xsd:complexType>
 
 
   <xsd:complexType name="Misc" mixed="true">
     <xsd:sequence>
-      <xsd:element name="date" type="Date"  minOccurs="0" maxOccurs="1"/>
-      <xsd:element name="plac" type="xsd:string"  minOccurs="0" maxOccurs="1"/>
-      <xsd:element name="quay" type="xsd:integer"  maxOccurs="1"/>
-      <xsd:element name="sour" type="Sour"  minOccurs="0" maxOccurs="1"/>
+      <xsd:element name="date" type="Date"       minOccurs="0"/>
+      <xsd:element name="plac" type="xsd:string" minOccurs="0"/>
+      <xsd:element name="quay" type="xsd:integer"/>
+      <xsd:element name="sour" type="Sour"       minOccurs="0"/>
 
     </xsd:sequence>
   </xsd:complexType>
 
-<xsd:complexType name="Chan">
+  <xsd:complexType name="Chan">
     <xsd:sequence>
-      <xsd:element name="date" type="Date"  maxOccurs="1"/>
+      <xsd:element name="date" type="Date"/>
     </xsd:sequence>
   </xsd:complexType>
 
   <xsd:complexType name="Div" mixed="true">
     <xsd:sequence>
-      <xsd:element name="quay" type="xsd:string" minOccurs="0"  maxOccurs="1"/>
+      <xsd:element name="quay" type="xsd:string" minOccurs="0"/>
     </xsd:sequence>
   </xsd:complexType>
 
   <xsd:complexType name="DatePlac">
     <xsd:sequence>
-      <xsd:element name="date" type="Date" minOccurs="0"  maxOccurs="1"/>
-      <xsd:element name="plac" type="xsd:string" minOccurs="0"  maxOccurs="1"/>
+      <xsd:element name="date" type="Date"       minOccurs="0"/>
+      <xsd:element name="plac" type="xsd:string" minOccurs="0"/>
     </xsd:sequence>
   </xsd:complexType>
 
 
   <xsd:complexType name="DatePlacQuay">
     <xsd:sequence>
-      <xsd:element name="date" type="Date"  minOccurs="0" maxOccurs="1"/>
-      <xsd:element name="plac" type="xsd:string"  minOccurs="0" maxOccurs="1"/>
-      <xsd:element name="quay" type="xsd:string"  minOccurs="0" maxOccurs="1"/>
+      <xsd:element name="date" type="Date"        minOccurs="0"/>
+      <xsd:element name="plac" type="xsd:string"  minOccurs="0"/>
+      <xsd:element name="quay" type="xsd:string"  minOccurs="0"/>
     </xsd:sequence>
   </xsd:complexType>
 
-<xsd:complexType name="DateQuay">
+  <xsd:complexType name="DateQuay">
     <xsd:sequence>
-      <xsd:element name="date" type="Date"  minOccurs="0" maxOccurs="1"/>
-      <xsd:element name="quay" type="xsd:string"  minOccurs="0" maxOccurs="1"/>
+      <xsd:element name="date" type="Date"        minOccurs="0"/>
+      <xsd:element name="quay" type="xsd:string"  minOccurs="0"/>
     </xsd:sequence>
   </xsd:complexType>
 
   <xsd:simpleType name="Date">
     <xsd:restriction base="xsd:token">
-      <!-- <xsd:pattern value="[1-9
-	   10-31]?.*[(JAN|FEV|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC)]?\s[1-9
-	   10-99 100-999 1000-2200]?.*"/> -->
-      <xsd:pattern value=".*"/>
-
+      <xsd:pattern value="(ABT|AFT|BEF)?\s*([1-9]|[12]\d|3[01])?\s*(JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC)?\s*(\d{1,4}(/\d{1,4})?)?"/>
     </xsd:restriction>
   </xsd:simpleType>
 
@@ -94,36 +88,36 @@
     </xsd:restriction>
   </xsd:simpleType>
 
-  
+
 
 
   <xsd:complexType name="Addr" mixed="true">
     <xsd:sequence>
-      <xsd:element name="cont" type="xsd:string" minOccurs="0" maxOccurs="1"/>    
+      <xsd:element name="cont" type="xsd:string" minOccurs="0"/>
     </xsd:sequence>
   </xsd:complexType>
 
 
   <xsd:complexType name="Corp" mixed="true">
     <xsd:sequence>
-      <xsd:element name="addr" type="Addr" minOccurs="0" maxOccurs="1"/>
-      <xsd:element name="phon" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+      <xsd:element name="addr" type="Addr"       minOccurs="0"/>
+      <xsd:element name="phon" type="xsd:string" minOccurs="0"/>
     </xsd:sequence>
   </xsd:complexType>
 
   <xsd:complexType name="MixedCONT" mixed="true">
     <xsd:sequence>
-      <xsd:element name="cont" type="xsd:string"  minOccurs="0" maxOccurs="unbounded"/>
+      <xsd:element name="cont" type="xsd:string" minOccurs="0" maxOccurs="unbounded"/>
     </xsd:sequence>
   </xsd:complexType>
 
 
   <xsd:complexType name="Subm">
     <xsd:sequence>
-      <xsd:element name="addr" type="MixedCONT"  maxOccurs="1"/>
-      <xsd:element name="comm" type="MixedCONT" maxOccurs="1"/>
-      <xsd:element name="name" type="xsd:string"  maxOccurs="1"/>
-      <xsd:element name="phon" type="xsd:string"  maxOccurs="1"/>
+      <xsd:element name="addr" type="MixedCONT"/>
+      <xsd:element name="comm" type="MixedCONT"/>
+      <xsd:element name="name" type="xsd:string"/>
+      <xsd:element name="phon" type="xsd:string"/>
     </xsd:sequence>
     <xsd:attribute name="id" use="optional"  type="SubmID"/>
   </xsd:complexType>
@@ -131,23 +125,23 @@
 
   <xsd:complexType name="Sour" mixed="true">
     <xsd:sequence>
-      <xsd:element name="corp" type="Corp" minOccurs="0" maxOccurs="1"/>
-      <xsd:element name="name" type="xsd:string" minOccurs="0" maxOccurs="1"/>
-      <xsd:element name="vers" type="xsd:decimal" minOccurs="0" maxOccurs="1"/>
+      <xsd:element name="corp" type="Corp"        minOccurs="0"/>
+      <xsd:element name="name" type="xsd:string"  minOccurs="0"/>
+      <xsd:element name="vers" type="xsd:decimal" minOccurs="0"/>
     </xsd:sequence>
     <xsd:attribute name="id" use="optional" type="SubmID"/>
   </xsd:complexType>
 
   <xsd:complexType name="Gedc" mixed="true">
     <xsd:sequence>
-      <xsd:element name="vers" type="xsd:decimal" minOccurs="0" maxOccurs="1"/>
+      <xsd:element name="vers" type="xsd:decimal" minOccurs="0"/>
     </xsd:sequence>
   </xsd:complexType>
 
   <xsd:complexType name="File" mixed="true">
-    <xsd:sequence>   
-      <xsd:element name="form" type="xsd:string" minOccurs="0" maxOccurs="1"/>
-      <xsd:element name="numb" type="xsd:integer" minOccurs="0" maxOccurs="1"/>
+    <xsd:sequence>
+      <xsd:element name="form" type="xsd:string"  minOccurs="0"/>
+      <xsd:element name="numb" type="xsd:integer" minOccurs="0"/>
 
     </xsd:sequence>
   </xsd:complexType>
@@ -156,9 +150,9 @@
 
   <xsd:complexType name="Obje">
     <xsd:sequence>
-      <xsd:element name="file" type="File" minOccurs="0" maxOccurs="1"/>
-      <xsd:element name="form" type="xsd:string" minOccurs="0" maxOccurs="1"/>  
-      <xsd:element name="titl" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+      <xsd:element name="file" type="File"       minOccurs="0"/>
+      <xsd:element name="form" type="xsd:string" minOccurs="0"/>
+      <xsd:element name="titl" type="xsd:string" minOccurs="0"/>
     </xsd:sequence>
   </xsd:complexType>
 
@@ -168,49 +162,46 @@
 
   <xsd:complexType name="Indi">
     <xsd:sequence>
-      <xsd:element name="attr" type="xsd:string" minOccurs="0" maxOccurs="1"/>
-      <xsd:element name="bapm" type="DatePlacQuay" minOccurs="0" maxOccurs="1"/>
-      <xsd:element name="birt" type="DatePlacQuay" minOccurs="0" maxOccurs="1"/>
-      <xsd:element name="buri" type="DatePlacQuay" minOccurs="0" maxOccurs="1"/>
-      <xsd:element name="chan" type="Chan" minOccurs="0" maxOccurs="1"/>
-      <xsd:element name="chr" type="DatePlacQuay" minOccurs="0" maxOccurs="1"/>
-      <xsd:element name="deat" type="DatePlacQuay" minOccurs="0" maxOccurs="1"/>
-      <xsd:element name="famc" type="AttributFAM" minOccurs="0" maxOccurs="1"/>
-      <xsd:element name="fams" type="AttributFAM" minOccurs="0" maxOccurs="unbounded"/>
-      <xsd:element name="ille" type="xsd:string" minOccurs="0" maxOccurs="1"/>
-      <xsd:element name="misc" type="Misc" minOccurs="0" maxOccurs="unbounded"/>
-      <xsd:element name="name" type="xsd:string" minOccurs="0" maxOccurs="1"/>
-      <xsd:element name="note" type="MixedCONT" minOccurs="0" maxOccurs="1"/>
-      <xsd:element name="numb" type="xsd:integer" minOccurs="0" maxOccurs="1"/>
-      <xsd:element name="obje" type="Obje" minOccurs="0" maxOccurs="1"/>    
-      <xsd:element name="occu" type="xsd:string" minOccurs="0" maxOccurs="1"/>
-      <xsd:element name="refn" type="xsd:string" minOccurs="0" maxOccurs="1"/>
-      <xsd:element name="sex" type="xsd:string" minOccurs="0" maxOccurs="1"/>
-      <xsd:element name="sour" type="Sour" minOccurs="0" maxOccurs="1"/>
-      <xsd:element name="stil" type="xsd:string" minOccurs="0" maxOccurs="1"/>
-      <xsd:element name="titl" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+      <xsd:element name="attr" type="xsd:string"   minOccurs="0"/>
+      <xsd:element name="bapm" type="DatePlacQuay" minOccurs="0"/>
+      <xsd:element name="birt" type="DatePlacQuay" minOccurs="0"/>
+      <xsd:element name="buri" type="DatePlacQuay" minOccurs="0"/>
+      <xsd:element name="chan" type="Chan"         minOccurs="0"/>
+      <xsd:element name="chr"  type="DatePlacQuay" minOccurs="0"/>
+      <xsd:element name="deat" type="DatePlacQuay" minOccurs="0"/>
+      <xsd:element name="famc" type="AttributFAM"  minOccurs="0"/>
+      <xsd:element name="fams" type="AttributFAM"  minOccurs="0" maxOccurs="unbounded"/>
+      <xsd:element name="ille" type="xsd:string"   minOccurs="0"/>
+      <xsd:element name="misc" type="Misc"         minOccurs="0" maxOccurs="unbounded"/>
+      <xsd:element name="name" type="xsd:string"   minOccurs="0"/>
+      <xsd:element name="note" type="MixedCONT"    minOccurs="0"/>
+      <xsd:element name="numb" type="xsd:integer"  minOccurs="0"/>
+      <xsd:element name="obje" type="Obje"         minOccurs="0"/>
+      <xsd:element name="occu" type="xsd:string"   minOccurs="0"/>
+      <xsd:element name="refn" type="xsd:string"   minOccurs="0"/>
+      <xsd:element name="sex"  type="xsd:string"   minOccurs="0"/>
+      <xsd:element name="sour" type="Sour"         minOccurs="0"/>
+      <xsd:element name="stil" type="xsd:string"   minOccurs="0"/>
+      <xsd:element name="titl" type="xsd:string"   minOccurs="0"/>
     </xsd:sequence>
     <xsd:attribute name="id" use="required" type="IndiID"/>
   </xsd:complexType>
-  
+
 
   <xsd:complexType name="Fam">
     <xsd:sequence>
-      <xsd:element name="anul" type="DateQuay" minOccurs="0" maxOccurs="1"/> 
-      <xsd:element name="chan" type="Chan" minOccurs="0" maxOccurs="1"/>    
+      <xsd:element name="anul" type="DateQuay"     minOccurs="0"/>
+      <xsd:element name="chan" type="Chan"         minOccurs="0"/>
       <xsd:element name="chil" type="AttributINDI" minOccurs="0" maxOccurs="unbounded"/>
-       <xsd:element name="div" type="Div" minOccurs="0"  maxOccurs="1"/>
-      <xsd:element name="enga" type="DateQuay" minOccurs="0" maxOccurs="1"/> 
-    
+      <xsd:element name="div" type="Div"           minOccurs="0"/>
+      <xsd:element name="enga" type="DateQuay"     minOccurs="0"/>
       <xsd:element name="husb" type="AttributINDI" minOccurs="0"/>
-      <xsd:element name="marr" type="DatePlacQuay" minOccurs="0" maxOccurs="unbounded"/> 
-      <xsd:element name="misc" type="Misc" minOccurs="0" maxOccurs="unbounded"/>    
-         <xsd:element name="numb" type="xsd:integer" minOccurs="0" maxOccurs="1"/>
-
-      <xsd:element name="obje" type="Obje" minOccurs="0" maxOccurs="1"/>       
-      <xsd:element name="sour" type="Sour" minOccurs="0" maxOccurs="1"/>
-      
-<xsd:element name="wife" type="AttributINDI" minOccurs="0"/>  
+      <xsd:element name="marr" type="DatePlacQuay" minOccurs="0" maxOccurs="unbounded"/>
+      <xsd:element name="misc" type="Misc"         minOccurs="0" maxOccurs="unbounded"/>
+      <xsd:element name="numb" type="xsd:integer"  minOccurs="0"/>
+      <xsd:element name="obje" type="Obje"         minOccurs="0"/>
+      <xsd:element name="sour" type="Sour"         minOccurs="0"/>
+      <xsd:element name="wife" type="AttributINDI" minOccurs="0"/>
     </xsd:sequence>
     <xsd:attribute name="id" use="required" type="FamID"/>
   </xsd:complexType>
@@ -218,33 +209,30 @@
 
   <xsd:complexType name="Head">
     <xsd:sequence>
-      <xsd:element name="char" type="xsd:string" minOccurs="0" maxOccurs="1"/>
-      <xsd:element name="date" type="Date" minOccurs="0" maxOccurs="1"/>
-      <xsd:element name="dest" type="xsd:string" minOccurs="0" maxOccurs="1"/>
-      <xsd:element name="file" type="File" minOccurs="0" maxOccurs="1"/>
-      <xsd:element name="gedc" type="Gedc" minOccurs="0" maxOccurs="1"/>
-      <xsd:element name="sour" type="Sour" minOccurs="0" maxOccurs="1"/>
-      
+      <xsd:element name="char" type="xsd:string" minOccurs="0"/>
+      <xsd:element name="date" type="Date"       minOccurs="0"/>
+      <xsd:element name="dest" type="xsd:string" minOccurs="0"/>
+      <xsd:element name="file" type="File"       minOccurs="0"/>
+      <xsd:element name="gedc" type="Gedc"       minOccurs="0"/>
+      <xsd:element name="sour" type="Sour"       minOccurs="0"/>
+
     </xsd:sequence>
   </xsd:complexType>
 
   <xsd:element name="root">
     <xsd:complexType>
-      <xsd:sequence minOccurs="0" maxOccurs="unbounded">
-	<xsd:element name="head" maxOccurs="1" type="Head" />
-	<xsd:element name="subm" minOccurs="0" maxOccurs="2" type="Subm" />
-	<xsd:element name="sour"  minOccurs="0" maxOccurs="unbounded" type="Sour" />
+      <xsd:sequence >
+	<xsd:element name="head" type="Head" />
+	<xsd:element name="subm" type="Subm" minOccurs="0" maxOccurs="2"  />
+	<xsd:element name="sour" type="Sour" minOccurs="0" maxOccurs="unbounded"  />
 
 	<xsd:choice minOccurs="0" maxOccurs="unbounded">
-	  <xsd:element name="fam" type="Fam"/>
+	  <xsd:element name="fam"  type="Fam"/>
 	  <xsd:element name="indi" type="Indi"/>
 	</xsd:choice>
-	<xsd:element name="trlr"  maxOccurs="1"/>
+	<xsd:element name="trlr"/>
       </xsd:sequence>
     </xsd:complexType>
-
-
-
 
     <!-- Contrainte d'unicité sur l'attribut id de fam -\-> -->
     <xsd:unique name="UniqueFamID">
@@ -256,8 +244,6 @@
       <xsd:selector xpath="./indi" />
       <xsd:field xpath="@id" />
     </xsd:unique>
-
-
   </xsd:element>
 
 </xsd:schema>
