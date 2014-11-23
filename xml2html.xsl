@@ -13,7 +13,9 @@
 	<table class="table">
 	  <thead>
 	    <tr>
-	      <th>Name</th>
+	      <th>Nom</th>
+	      <th>Prenom</th>
+	      <th> ... </th>
 	    </tr>
 	  </thead>
 	  <tbody>
@@ -40,8 +42,18 @@
   <xsl:template match="indi">
     <xsl:element name="tr">
       <xsl:apply-templates select="@id" />
-      <td><xsl:value-of select="name"/></td>
+      <xsl:apply-templates select="name"/>
     </xsl:element>
+  </xsl:template>
+
+  <xsl:template match="indi/name">
+    <td>
+      <xsl:value-of select="nom"/>
+    </td>
+    <td>
+      <xsl:value-of select="sname"/>
+    </td>
+    <td> ... </td>
   </xsl:template>
 
   <xsl:template match="fam">

@@ -8,7 +8,7 @@ let uppercase_alpha = ['A'-'Z' '_']
 let alpha = lowercase_alpha | uppercase_alpha
 let alphanum = alpha | digit | '_'
 
-let info_keywords = "INDI" | "FAM" | "NAME" | "TITL" | "SEX" | "PLAC"
+let info_keywords = "INDI" | "FAM" | "TITL" | "SEX" | "PLAC"
 	       | "DATE" | "DIV" | "BIRT" | "DEAT" | "BURI" | "MARR"
 	       | "CHR" | "OBJE" | "FILE" | "FORM" | "HEAD" | "TRLR"
 	       | "SOUR" | "VERS" | "VERS" | "CONT" | "CORP" | "ADDR"
@@ -23,21 +23,35 @@ let id_keywords = "HUSB" | "WIFE" | "FAMC" | "FAMS" | "CHIL"
 let ignore = blank | newline
 
 
-rule lexer n =
+rule lexer n niv =
  parse
-  | newline+ | blank+ { lexer (n) lexbuf }
+  | newline+ | blank+ { lexer n niv lexbuf }
 
   (** Keywords *)
-  | id_keywords as s { Tag s::(lexer (n) lexbuf) }
-  | info_keywords as s { Tag s::(information "" (n) lexbuf) }
+  | "NAME"        as s { Tag s::name n (niv+1) lexbuf }
+  | id_keywords   as s { Tag s::(lexer n niv lexbuf) }
+  | info_keywords as s { Tag s::(information "" n niv lexbuf) }
 
-  | digit+ as i { Niv (int_of_string i)::lexer (n+1) lexbuf }
-  | '@' alphanum+ '@' as s { Id s::lexer (n) lexbuf }
+  | digit+ as i { let i = (int_of_string i) in Niv i::lexer (n+1) i lexbuf }
+  | '@' alphanum+ '@' as s { Id s::lexer n niv lexbuf }
 
   | eof { [EOF] }
   | _ as c { failwith (Printf.sprintf "Erreur charcater %c, ligne %d" c n) }
 
-and information s n = parse
-  | '&' { information (s^"&amp;") n lexbuf }
-  | [^ '\010' '\013' '&']+ as s' { information (s^s') (n) lexbuf }
-  | newline { Info s::lexer (n) lexbuf }
+and information s n niv = parse
+  | '&' { information (s^"&amp;") n niv lexbuf }
+  | [^ '\010' '\013' '&']+ as s' { information (s^s') n niv lexbuf }
+  | newline { if s = ""
+	      then lexer n niv lexbuf
+	      else Info s::lexer n niv lexbuf }
+
+and name n niv = parse
+	   | [^ '\010' '\013' '/']+ as s { Niv niv::Tag "nom"::Info s::name n niv lexbuf }
+	   | '/' { surname n niv lexbuf }
+	   | newline { lexer n (niv -1) lexbuf }
+
+and surname n niv = parse
+  | [^ '\010' '\013' '/']+ as s { Niv niv::Tag "sname"::Info s::name n niv lexbuf }
+  | '/' { name n niv lexbuf }
+  | newline { lexer n (niv -1) lexbuf }
+
