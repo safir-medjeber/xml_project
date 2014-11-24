@@ -1,15 +1,15 @@
 <!--ROOT (pas de trie de balises ici -->
-<!ELEMENT root (head, sour*, subm*, (fam|indi)*, trlr)*>
+<!ELEMENT root (head, sour*, subm?, (fam|indi)*, trlr)>
 
 
 <!--HEAD-->
-<!ELEMENT head (char?, date, dest?, file, gedc?, sour)*>
+<!ELEMENT head (char?, date, dest?, file, gedc?, sour)?>
 <!ELEMENT char (#PCDATA)>
 <!ELEMENT date (#PCDATA)>
 <!ELEMENT dest (#PCDATA)>
 <!ELEMENT file (#PCDATA | form | numb)*>
 <!ELEMENT form (#PCDATA)>
-<!ELEMENT gedc (vers)*>
+<!ELEMENT gedc (vers)>
 <!ELEMENT vers (#PCDATA)>
 <!ELEMENT sour (#PCDATA | corp | name | vers)*>
 <!ATTLIST sour id ID #IMPLIED>
