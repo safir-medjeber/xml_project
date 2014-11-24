@@ -37,6 +37,8 @@
 	    <xsl:apply-templates select="fam"/>
 	  </tbody>
 	</table>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
       </body>
     </html>
   </xsl:template>
@@ -45,47 +47,91 @@
     <xsl:element name="tr">
       <xsl:apply-templates select="@id" />
       <xsl:apply-templates select="name" />
+      <td>
+	<xsl:element name="button" use-attribute-sets="modal-button">
+	  <xsl:attribute name="data-target" >#modal<xsl:value-of select="@id"/></xsl:attribute>
+	  more
+	</xsl:element>
+      </td>
+
+      <xsl:element name="div" use-attribute-sets="modal">
+	<xsl:attribute name="id" >modal<xsl:value-of select="@id" /></xsl:attribute>
+
+      	<div class="modal-dialog">
+	  <div class="modal-content">
+	    <div class="modal-header">
+              <h4 class="modal-title">Informations</h4>
+	    </div>
+	    <div class="modal-body">
+	      <xsl:apply-templates select="bapm | birt | deat"/>
+	    </div>
+	    <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+	    </div>
+	  </div>
+	</div>
+      </xsl:element>
     </xsl:element>
   </xsl:template>
+
+  <xsl:template match="bapm">
+    <p>Batpeme: <xsl:apply-templates select="*" /></p>
+  </xsl:template>
+
+  <xsl:template match="birt">
+    <p>Naissance: <xsl:apply-templates select="*" /></p>
+  </xsl:template>
+
+  <xsl:template match="deat">
+    <p>Mort: <xsl:apply-templates select="*" /></p>
+  </xsl:template>
+
+  <xsl:template match="date">
+    <xsl:value-of select="text()"/> 
+  </xsl:template>
+
+  <xsl:template match="plac">
+    à <xsl:value-of select="text()"/> 
+  </xsl:template>
+
+  <xsl:template match="quay">
+    quay <xsl:value-of select="text()"/> 
+  </xsl:template>
+
 
   <xsl:template match="name">
     <td><xsl:value-of select="fname"/></td>
     <td><xsl:value-of select="lname"/></td>
-    <td> ... </td>
   </xsl:template>
+
 
   <xsl:template match="fam">
     <xsl:element name="tr">
       <xsl:apply-templates select="@id" />
       <td>
-	<xsl:element name="a">
-	  <xsl:apply-templates select="husb/@idref" />
-	  <xsl:value-of select="/indi[@id = ]/name/fname" />
-	</xsl:element>
+	<xsl:apply-templates select="husb" />
       </td>
       <td>
-	<xsl:element name="a">
-	  <xsl:apply-templates select="wife/@idref" />
-	  Wife
-	</xsl:element>
+	<xsl:apply-templates select="wife" />
       </td>
       <td>
 	<ul>
 	  <xsl:for-each select="chil">
 	    <li>
-	      <xsl:element name="a">
-		<xsl:apply-templates select="@idref"/>
-		child
-	      </xsl:element>
-	  </li>
+	      <xsl:apply-templates select="." />
+	    </li>
 	  </xsl:for-each>
 	</ul>
       </td>
     </xsl:element>
   </xsl:template>
 
-  <xsl:template match="*" name="a">
-
+  <xsl:template match="husb | wife | chil">
+    <xsl:element name="a">
+      <xsl:apply-templates select="@idref" />
+      <xsl:variable name="id" select="@idref" />
+      - <xsl:apply-templates select="../../indi[@id = $id]/name/fname" />
+    </xsl:element>
   </xsl:template>
 
   <xsl:template match="@id">
@@ -99,5 +145,19 @@
       #<xsl:value-of select="."/>
     </xsl:attribute>
   </xsl:template>
+
+  <xsl:attribute-set name="modal-button">
+    <xsl:attribute name="type" >button</xsl:attribute>
+    <xsl:attribute name="class" >btn btn-default btn-sm</xsl:attribute>
+    <xsl:attribute name="data-toggle" >modal</xsl:attribute>
+  </xsl:attribute-set>
+
+  <xsl:attribute-set name="modal">
+    <xsl:attribute name="tabindex" >-1</xsl:attribute>
+    <xsl:attribute name="class" >modal fade</xsl:attribute>
+    <xsl:attribute name="role" >dialog</xsl:attribute>
+    <xsl:attribute name="aria-labelledby">myModalLabel</xsl:attribute>
+    <xsl:attribute name="aria-hidden">true</xsl:attribute>
+  </xsl:attribute-set>
 
 </xsl:stylesheet>
