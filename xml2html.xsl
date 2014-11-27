@@ -6,9 +6,9 @@
   <xsl:template match="root">
     <html>
       <head>
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css"/>
+	<link rel="stylesheet" href="style.css"/>
       </head>
-      <body class="container">
+      <body>
 	<h2>Individu</h2>
 	<table class="table">
 	  <thead>
@@ -25,7 +25,7 @@
 	  </tbody>
 	</table>
 	<h2>Famille</h2>
-	<table class="table">
+	<table>
 	  <thead>
 	    <tr>
 	      <th>Husband</th>
@@ -38,7 +38,7 @@
 	  </tbody>
 	</table>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+	<script src="javascript.js"></script>
       </body>
     </html>
   </xsl:template>
@@ -48,7 +48,7 @@
       <xsl:apply-templates select="@id" />
       <xsl:apply-templates select="name" />
       <td>
-	<xsl:element name="button" use-attribute-sets="modal-button">
+	<xsl:element name="button">
 	  <xsl:attribute name="data-target" >#modal<xsl:value-of select="@id"/></xsl:attribute>
 	  more
 	</xsl:element>
@@ -66,7 +66,7 @@
 	      <xsl:apply-templates select="bapm | birt | deat"/>
 	    </div>
 	    <div class="modal-footer">
-              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              <button type="button" data-dismiss="modal">Close</button>
 	    </div>
 	  </div>
 	</div>
@@ -146,18 +146,8 @@
     </xsl:attribute>
   </xsl:template>
 
-  <xsl:attribute-set name="modal-button">
-    <xsl:attribute name="type" >button</xsl:attribute>
-    <xsl:attribute name="class" >btn btn-default btn-sm</xsl:attribute>
-    <xsl:attribute name="data-toggle" >modal</xsl:attribute>
-  </xsl:attribute-set>
-
   <xsl:attribute-set name="modal">
-    <xsl:attribute name="tabindex" >-1</xsl:attribute>
-    <xsl:attribute name="class" >modal fade</xsl:attribute>
-    <xsl:attribute name="role" >dialog</xsl:attribute>
-    <xsl:attribute name="aria-labelledby">myModalLabel</xsl:attribute>
-    <xsl:attribute name="aria-hidden">true</xsl:attribute>
+    <xsl:attribute name="class" >modal</xsl:attribute>
   </xsl:attribute-set>
 
 </xsl:stylesheet>
