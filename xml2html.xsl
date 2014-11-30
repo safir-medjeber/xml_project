@@ -6,7 +6,7 @@
   <xsl:template match="root">
     <html>
       <head>
-	<link rel="stylesheet" href="style.css"/>
+	<link rel="stylesheet" href="assets/css/style.css"/>
       </head>
       <body>
 	<h2>Individu</h2>
@@ -15,6 +15,8 @@
 	    <tr>
 	      <th>Prenom</th>
 	      <th>Nom</th>
+	      <th>famc</th>
+	      <th>fams</th>
 	      <th> ... </th>
 	    </tr>
 	  </thead>
@@ -38,7 +40,7 @@
 	  </tbody>
 	</table>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-	<script src="javascript.js"></script>
+	<script src="assets/js/javascript.js"></script>
       </body>
     </html>
   </xsl:template>
@@ -46,7 +48,16 @@
   <xsl:template match="indi">
     <xsl:element name="tr">
       <xsl:apply-templates select="@id" />
-      <xsl:apply-templates select="name" />
+      <td><xsl:value-of select="name/fname" /></td>
+      <td><xsl:value-of select="name/lname" /></td>
+      <td><xsl:apply-templates select="famc" /></td>
+      <td>
+	<ul>
+	  <xsl:for-each select="fams">
+	    <li><xsl:apply-templates select="." /></li>
+	  </xsl:for-each>
+	</ul>
+      </td>
       <td>
 	<xsl:element name="button">
 	  <xsl:attribute name="data-target" >#modal<xsl:value-of select="@id"/></xsl:attribute>
@@ -56,13 +67,13 @@
 
       <xsl:element name="div" use-attribute-sets="modal">
 	<xsl:attribute name="id" >modal<xsl:value-of select="@id" /></xsl:attribute>
-
       	<div class="modal-dialog">
 	  <div class="modal-content">
 	    <div class="modal-header">
               <h4 class="modal-title">Informations</h4>
 	    </div>
 	    <div class="modal-body">
+	      <xsl:apply-templates select="sex" />
 	      <xsl:apply-templates select="bapm | birt | deat"/>
 	    </div>
 	    <div class="modal-footer">
@@ -74,52 +85,38 @@
     </xsl:element>
   </xsl:template>
 
+  <xsl:template match="sex[contains(text(),'F')]"><p>Femme</p></xsl:template>
+  <xsl:template match="sex[contains(text(),'M')]"><p>Homme</p></xsl:template>
+
   <xsl:template match="bapm">
-    <p>Batpeme: <xsl:apply-templates select="*" /></p>
+    <p>Batpeme  :<xsl:apply-templates select="date | plac" /></p>
   </xsl:template>
 
   <xsl:template match="birt">
-    <p>Naissance: <xsl:apply-templates select="*" /></p>
+    <p>Naissance:<xsl:apply-templates select="date | plac" /></p>
   </xsl:template>
 
   <xsl:template match="deat">
-    <p>Mort: <xsl:apply-templates select="*" /></p>
+    <p>Mort     :<xsl:apply-templates select="date | plac" /></p>
   </xsl:template>
 
   <xsl:template match="date">
-    <xsl:value-of select="text()"/> 
+    <xsl:value-of select="text()"/>
   </xsl:template>
 
   <xsl:template match="plac">
-    à <xsl:value-of select="text()"/> 
+    à <xsl:value-of select="text()"/>
   </xsl:template>
-
-  <xsl:template match="quay">
-    quay <xsl:value-of select="text()"/> 
-  </xsl:template>
-
-
-  <xsl:template match="name">
-    <td><xsl:value-of select="fname"/></td>
-    <td><xsl:value-of select="lname"/></td>
-  </xsl:template>
-
 
   <xsl:template match="fam">
     <xsl:element name="tr">
       <xsl:apply-templates select="@id" />
-      <td>
-	<xsl:apply-templates select="husb" />
-      </td>
-      <td>
-	<xsl:apply-templates select="wife" />
-      </td>
+      <td><xsl:apply-templates select="husb" /></td>
+      <td><xsl:apply-templates select="wife" /></td>
       <td>
 	<ul>
 	  <xsl:for-each select="chil">
-	    <li>
-	      <xsl:apply-templates select="." />
-	    </li>
+	    <li><xsl:apply-templates select="." /></li>
 	  </xsl:for-each>
 	</ul>
       </td>
@@ -130,7 +127,16 @@
     <xsl:element name="a">
       <xsl:apply-templates select="@idref" />
       <xsl:variable name="id" select="@idref" />
-      - <xsl:apply-templates select="../../indi[@id = $id]/name/fname" />
+      <xsl:variable name="name" select="../../indi[@id = $id]/name" />
+      - <xsl:value-of select="$name/fname" /><xsl:value-of select="$name/lname" />
+    </xsl:element>
+  </xsl:template>
+
+  <xsl:template match="famc | fams">
+    <xsl:element name="a">
+      <xsl:apply-templates select="@idref" />
+      <xsl:variable name="id" select="@idref" />
+      lien
     </xsl:element>
   </xsl:template>
 
@@ -147,7 +153,7 @@
   </xsl:template>
 
   <xsl:attribute-set name="modal">
-    <xsl:attribute name="class" >modal</xsl:attribute>
+    <xsl:attribute name="class">modal</xsl:attribute>
   </xsl:attribute-set>
 
 </xsl:stylesheet>
