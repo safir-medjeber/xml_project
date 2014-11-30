@@ -1,14 +1,14 @@
 #!/bin/bash
 
-if [ ! -e ./convert ]
-then
-    make
-    make clear
-fi
+make -C src/
 
-geds=*.ged
+geds=ged/*.ged
+
+if [ ! -d "xml" ]; then
+    mkdir xml
+fi
 
 for file in ${geds}
 do
-    ./convert ${file}
+    ./src/convert ${file}
 done

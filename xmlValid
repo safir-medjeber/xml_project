@@ -6,6 +6,7 @@ dtd=0
 if [ $# -eq 0 ]
 then
     schema=1
+    dtd=1
 else
     for arg in $*
     do
@@ -20,7 +21,7 @@ else
     done
 fi
 
-xml=*.xml
+xml=xml/*.xml
 
 
 if [ ${dtd} -eq 1 ]

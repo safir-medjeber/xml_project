@@ -3,6 +3,8 @@ open AST
 let buffer = Buffer.create 100000
 let add    = Buffer.add_string buffer
 
+let entete = "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?>"
+
 let rec print_tab n =
   if n = 0
   then ()
@@ -48,6 +50,7 @@ let print_tree l =
 	   close_balise n tag
 	 end
   in
+  add entete;
   aux 0 (list2tree l);
   buffer
 
