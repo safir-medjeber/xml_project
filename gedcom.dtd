@@ -1,9 +1,9 @@
-<!--ROOT (pas de trie de balises ici -->
+<!--ROOT (pas de trie de balises ici) -->
 <!ELEMENT root (head, sour*, subm?, (fam|indi)*, trlr)>
 
 
 <!--HEAD-->
-<!ELEMENT head (char?, date, dest?, file, gedc?, sour)?>
+<!ELEMENT head (char?, date?, dest?, file?, gedc?, sour)?>
 <!ELEMENT char (#PCDATA)>
 <!ELEMENT date (#PCDATA)>
 <!ELEMENT dest (#PCDATA)>
@@ -17,17 +17,14 @@
 
 
 
-
 <!--SUBM-->
-<!ELEMENT subm (addr, comm, name, phon ) >
+<!ELEMENT subm (addr?, comm?, name?, phon? ) >
 <!ATTLIST subm id ID #REQUIRED>
 <!ELEMENT addr (#PCDATA | cont)*>
 <!ELEMENT comm (#PCDATA | cont)*>
 <!ELEMENT cont (#PCDATA)>
 <!ELEMENT name (fname,lname?,nname?)>
 <!ELEMENT phon (#PCDATA)>
-
-
 <!ELEMENT fname (#PCDATA)>
 <!ELEMENT lname (#PCDATA)>
 <!ELEMENT nname (#PCDATA)>
@@ -38,7 +35,7 @@
 <!ATTLIST fam id ID #REQUIRED>
 
 <!--ANUL-->
-<!ELEMENT anul (date?, quay)>
+<!ELEMENT anul (date?, quay?)>
 
 <!--CHAN-->
 <!ELEMENT chan (date)>
@@ -52,7 +49,7 @@
 <!ELEMENT quay (#PCDATA)>
 
 <!--ENGA-->
-<!ELEMENT enga (date, quay)>
+<!ELEMENT enga (date?, quay?)>
 
 <!--HUSB-->
 <!ELEMENT husb EMPTY>
@@ -69,7 +66,7 @@
 <!ELEMENT numb (#PCDATA)>
 
 <!--OBJE-->
-<!ELEMENT obje (file, form?, titl)>
+<!ELEMENT obje (file?, form?, titl?)>
 <!ELEMENT titl (#PCDATA)>
 
 <!--WIFE-->
@@ -88,7 +85,7 @@
 <!ELEMENT attr (#PCDATA)>
 
 <!--BAPM-->
-<!ELEMENT bapm (date, plac?, quay)>
+<!ELEMENT bapm (date?, plac?, quay?)>
 
 <!--BIRT-->
 <!ELEMENT birt (date?, plac?, quay?)>
