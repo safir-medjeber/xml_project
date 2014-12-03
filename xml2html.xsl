@@ -3,6 +3,8 @@
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
   <xsl:output method="html"/>
 
+  <xsl:key name="individus" match="indi" use="@id" />
+
   <xsl:template match="root">
     <html>
       <head>
@@ -127,7 +129,7 @@
     <xsl:element name="a">
       <xsl:apply-templates select="@idref" />
       <xsl:variable name="id" select="@idref" />
-      <xsl:variable name="name" select="../../indi[@id = $id]/name" />
+      <xsl:variable name="name" select="key('individus', @idref)/name" />
       - <xsl:value-of select="$name/fname" /><xsl:value-of select="$name/lname" />
     </xsl:element>
   </xsl:template>
