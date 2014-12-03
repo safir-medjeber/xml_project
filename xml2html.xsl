@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<xsl:stylesheet version="1.0"
-                xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
   <xsl:output method="html"/>
 
   <xsl:key name="individus" match="indi" use="@id" />
@@ -29,46 +28,46 @@
 	  </ul>
 	</nav>
 	<section>
-	<h2>Individu</h2>
-	<table class="table">
-	  <thead>
-	    <tr>
-	      <th>Prenom</th>
-	      <th>Nom</th>
-	      <th>famc</th>
-	      <th>fams</th>
-	      <th> ... </th>
-	    </tr>
-	  </thead>
-	  <tbody>
-	    <xsl:for-each select="indi">
-	      <xsl:sort select="name/fname"/>
-	      <xsl:variable name="firstLetter" select="substring(normalize-space(name/fname), 1, 1)"/>
-	      <xsl:if test="generate-id(.) = generate-id(key('indiFirstLetters', $firstLetter)[1])">
-		<tr>
-		  <td colspan="100%" class="idIndex" id="$firstLetter">
-		    <xsl:attribute name="id">i<xsl:value-of select="$firstLetter" />i</xsl:attribute>
-		    <xsl:value-of select="$firstLetter" />
-		  </td>
-		</tr>
-		<xsl:apply-templates select="key('indiFirstLetters', $firstLetter)" />
-	      </xsl:if>
-	    </xsl:for-each>
-	  </tbody>
-	</table>
-	<h2>Famille</h2>
-	<table>
-	  <thead>
-	    <tr>
-	      <th>Husband</th>
-	      <th>Wife</th>
-	      <th>Children</th>
-	    </tr>
-	  </thead>
-	  <tbody>
-	    <xsl:apply-templates select="fam"/>
-	  </tbody>
-	</table>
+	  <h2>Individu</h2>
+	  <table class="table">
+	    <thead>
+	      <tr>
+		<th>Prenom</th>
+		<th>Nom</th>
+		<th>famc</th>
+		<th>fams</th>
+		<th> ... </th>
+	      </tr>
+	    </thead>
+	    <tbody>
+	      <xsl:for-each select="indi">
+		<xsl:sort select="name/fname"/>
+		<xsl:variable name="firstLetter" select="substring(normalize-space(name/fname), 1, 1)"/>
+		<xsl:if test="generate-id(.) = generate-id(key('indiFirstLetters', $firstLetter)[1])">
+		  <tr>
+		    <td colspan="100%" class="idIndex" id="$firstLetter">
+		      <xsl:attribute name="id">i<xsl:value-of select="$firstLetter" />i</xsl:attribute>
+		      <xsl:value-of select="$firstLetter" />
+		    </td>
+		  </tr>
+		  <xsl:apply-templates select="key('indiFirstLetters', $firstLetter)" />
+		</xsl:if>
+	      </xsl:for-each>
+	    </tbody>
+	  </table>
+	  <h2>Famille</h2>
+	  <table>
+	    <thead>
+	      <tr>
+		<th>Husband</th>
+		<th>Wife</th>
+		<th>Children</th>
+	      </tr>
+	    </thead>
+	    <tbody>
+	      <xsl:apply-templates select="fam"/>
+	    </tbody>
+	  </table>
 	</section>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 	<script src="assets/js/javascript.js"></script>
@@ -120,15 +119,15 @@
   <xsl:template match="sex[contains(text(),'M')]"><p>Homme</p></xsl:template>
 
   <xsl:template match="bapm">
-    <p>Batpeme  :<xsl:apply-templates select="date | plac" /></p>
+    <p>Bapteme : <xsl:apply-templates select="date | plac" /></p>
   </xsl:template>
 
   <xsl:template match="birt">
-    <p>Naissance:<xsl:apply-templates select="date | plac" /></p>
+    <p>Naissance : <xsl:apply-templates select="date | plac" /></p>
   </xsl:template>
 
   <xsl:template match="deat">
-    <p>Mort     :<xsl:apply-templates select="date | plac" /></p>
+    <p>Mort : <xsl:apply-templates select="date | plac" /></p>
   </xsl:template>
 
   <xsl:template match="date">
