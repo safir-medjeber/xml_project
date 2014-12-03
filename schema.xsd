@@ -32,7 +32,7 @@
     <xsd:sequence>
       <xsd:element name="date" type="Date"       minOccurs="0"/>
       <xsd:element name="plac" type="xsd:string" minOccurs="0"/>
-      <xsd:element name="quay" type="xsd:integer"/>
+      <xsd:element name="quay" type="xsd:integer" minOccurs="0"/>
       <xsd:element name="sour" type="Sour"       minOccurs="0"/>
 
     </xsd:sequence>
@@ -114,10 +114,10 @@
 
   <xsd:complexType name="Subm">
     <xsd:sequence>
-      <xsd:element name="addr" type="MixedCONT"/>
-      <xsd:element name="comm" type="MixedCONT"/>
-      <xsd:element name="name" type="Name"/>
-      <xsd:element name="phon" type="xsd:string"/>
+      <xsd:element name="addr" type="MixedCONT" minOccurs="0"/>
+      <xsd:element name="comm" type="MixedCONT" minOccurs="0"/>
+      <xsd:element name="name" type="Name" minOccurs="0"/>
+      <xsd:element name="phon" type="xsd:string" minOccurs="0"/>
     </xsd:sequence>
     <xsd:attribute name="id" use="optional"  type="SubmID"/>
   </xsd:complexType>
@@ -125,8 +125,8 @@
 
   <xsd:complexType name="Sour" mixed="true">
     <xsd:sequence>
-      <xsd:element name="corp" type="Corp"        minOccurs="0"/>
-      <xsd:element name="name" type="Name"        minOccurs="0"/>
+      <xsd:element name="corp" type="Corp" minOccurs="0"/>
+      <xsd:element name="name" type="Name"  minOccurs="0"/>
       <xsd:element name="vers" type="xsd:decimal" minOccurs="0"/>
     </xsd:sequence>
     <xsd:attribute name="id" use="optional" type="SubmID"/>
@@ -239,7 +239,7 @@
       </xsd:sequence>
     </xsd:complexType>
 
-    <!-- Contrainte d'unicité sur l'attribut id de fam -\-> -->
+    <!-- Contrainte d'unicitÃ© sur l'attribut id de fam -\-> -->
     <xsd:unique name="UniqueFamID">
       <xsd:selector xpath="./fam" />
       <xsd:field xpath="@id" />
