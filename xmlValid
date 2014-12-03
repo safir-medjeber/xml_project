@@ -38,6 +38,6 @@ then
     for file in ${xml}
     do
 	echo -n "schema: "
-	xmllint --noout --schema schema.xsd ${file}
+	xmllint --noout --schema gedcom.xsd ${file}
     done
 fi
