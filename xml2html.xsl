@@ -4,6 +4,7 @@
   <xsl:output method="html"/>
 
   <xsl:key name="individus" match="indi" use="@id" />
+  <xsl:key name="indiFirstLetters" match="indi" use="substring(normalize-space(name/fname),1,1)" />
 
   <xsl:template match="root">
     <html>
@@ -11,6 +12,23 @@
 	<link rel="stylesheet" href="assets/css/style.css"/>
       </head>
       <body>
+	<nav>
+	  <ul>
+	    <xsl:for-each select="indi">
+	      <xsl:sort select="name/fname"/>
+	      <xsl:variable name="firstLetter" select="substring(normalize-space(name/fname), 1, 1)"/>
+	      <xsl:if test="generate-id(.) = generate-id(key('indiFirstLetters', $firstLetter)[1])">
+		<li>
+		  <a>
+		    <xsl:attribute name="href">#i<xsl:value-of select="$firstLetter" />i</xsl:attribute>
+		    <xsl:value-of select="$firstLetter" />
+		  </a>
+		</li>
+	      </xsl:if>
+	    </xsl:for-each>
+	  </ul>
+	</nav>
+	<section>
 	<h2>Individu</h2>
 	<table class="table">
 	  <thead>
@@ -23,9 +41,19 @@
 	    </tr>
 	  </thead>
 	  <tbody>
-	    <xsl:apply-templates select="indi">
+	    <xsl:for-each select="indi">
 	      <xsl:sort select="name/fname"/>
-	    </xsl:apply-templates>
+	      <xsl:variable name="firstLetter" select="substring(normalize-space(name/fname), 1, 1)"/>
+	      <xsl:if test="generate-id(.) = generate-id(key('indiFirstLetters', $firstLetter)[1])">
+		<tr>
+		  <td colspan="100%" class="idIndex" id="$firstLetter">
+		    <xsl:attribute name="id">i<xsl:value-of select="$firstLetter" />i</xsl:attribute>
+		    <xsl:value-of select="$firstLetter" />
+		  </td>
+		</tr>
+		<xsl:apply-templates select="key('indiFirstLetters', $firstLetter)" />
+	      </xsl:if>
+	    </xsl:for-each>
 	  </tbody>
 	</table>
 	<h2>Famille</h2>
@@ -41,6 +69,7 @@
 	    <xsl:apply-templates select="fam"/>
 	  </tbody>
 	</table>
+	</section>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 	<script src="assets/js/javascript.js"></script>
       </body>

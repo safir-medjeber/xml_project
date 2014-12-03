@@ -102,3 +102,42 @@ button:hover{
     text-align: right;
     border-top: 1px solid #e5e5e5;
 }
+
+.idIndex{
+    position:absolute;
+}
+
+section{
+    float:left;
+    width: 90%;
+}
+
+nav{
+    float:right;
+    width:10%;
+}
+nav ul{
+    position: fixed;
+    list-style-type: none;
+    width: inherit;
+}
+nav a{
+    display:block;
+    padding: 4px 20px;
+    font-size: 13px;
+    color: #999;
+}
+nav a:hover{
+    border-left: 1px solid #563d7c;
+    text-decoration: none;
+    color: #563d7c;
+    padding-left: 19px;
+}
+@media (max-width: 768px){
+    nav {
+	display:none;
+    }
+    section{
+	width: 100%;
+    }
+}
