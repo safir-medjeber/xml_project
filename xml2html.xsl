@@ -62,6 +62,7 @@
 		<th>Husband</th>
 		<th>Wife</th>
 		<th>Children</th>
+		<th> ... </th>
 	      </tr>
 	    </thead>
 	    <tbody>
@@ -103,8 +104,10 @@
               <h4 class="modal-title">Informations</h4>
 	    </div>
 	    <div class="modal-body">
+	      <xsl:apply-templates select="titl" />
 	      <xsl:apply-templates select="sex" />
-	      <xsl:apply-templates select="bapm | birt | deat"/>
+	      <xsl:apply-templates select="bapm | birt | deat | buri" mode="datePlac"/>
+	      <xsl:apply-templates select="obje" />
 	    </div>
 	    <div class="modal-footer">
               <button type="button" data-dismiss="modal">Close</button>
@@ -115,19 +118,24 @@
     </xsl:element>
   </xsl:template>
 
+  <xsl:template match="titl">
+    <h5><xsl:value-of select="text()" /></h5>
+  </xsl:template>
+
   <xsl:template match="sex[contains(text(),'F')]"><p>Femme</p></xsl:template>
   <xsl:template match="sex[contains(text(),'M')]"><p>Homme</p></xsl:template>
 
-  <xsl:template match="bapm">
-    <p>Bapteme : <xsl:apply-templates select="date | plac" /></p>
-  </xsl:template>
+  <xsl:template match="bapm" mode="nom">Bapteme    </xsl:template>
+  <xsl:template match="birt" mode="nom">Naissance  </xsl:template>
+  <xsl:template match="deat" mode="nom">Mort       </xsl:template>
+  <xsl:template match="buri" mode="nom">Enterrement</xsl:template>
+  <xsl:template match="marr" mode="nom">Marriage   </xsl:template>
 
-  <xsl:template match="birt">
-    <p>Naissance : <xsl:apply-templates select="date | plac" /></p>
-  </xsl:template>
-
-  <xsl:template match="deat">
-    <p>Mort : <xsl:apply-templates select="date | plac" /></p>
+  <xsl:template match="*" mode="datePlac" >
+    <p>
+      <xsl:apply-templates select="." mode="nom" />:
+      <xsl:apply-templates select="date | plac" />
+    </p>
   </xsl:template>
 
   <xsl:template match="date">
@@ -136,6 +144,26 @@
 
   <xsl:template match="plac">
     à <xsl:value-of select="text()"/>
+  </xsl:template>
+
+  <xsl:template match="obje">
+    <xsl:apply-templates select="titl" />
+    <xsl:apply-templates select="file" />
+  </xsl:template>
+
+  <xsl:template match="file[normalize-space(form) = 'gif']">
+    <xsl:element name="img">
+      <xsl:attribute name="src"><xsl:value-of select="normalize-space(text())"/></xsl:attribute>
+    </xsl:element>
+  </xsl:template>
+
+  <xsl:template match="file[normalize-space(form) = 'html']">
+    <xsl:element name="a">
+      <xsl:attribute name="href">
+	<xsl:value-of select="normalize-space(text())"/>
+      </xsl:attribute>
+      <xsl:value-of select="normalize-space(text())"/>
+    </xsl:element>
   </xsl:template>
 
   <xsl:template match="fam">
@@ -150,7 +178,38 @@
 	  </xsl:for-each>
 	</ul>
       </td>
+      <td>
+	<xsl:element name="button">
+	  <xsl:attribute name="data-target" >#modal<xsl:value-of select="@id"/></xsl:attribute>
+	  more
+	</xsl:element>
+      </td>
+
+      <xsl:element name="div" use-attribute-sets="modal">
+	<xsl:attribute name="id" >modal<xsl:value-of select="@id" /></xsl:attribute>
+      	<div class="modal-dialog">
+	  <div class="modal-content">
+	    <div class="modal-header">
+              <h4 class="modal-title">Informations</h4>
+	    </div>
+	    <div class="modal-body">
+	      <xsl:apply-templates select="marr" mode="datePlac" />
+	      <xsl:apply-templates select="div" />
+	      <xsl:apply-templates select="obje" />
+	    </div>
+	    <div class="modal-footer">
+              <button type="button" data-dismiss="modal">Close</button>
+	    </div>
+	  </div>
+	</div>
+      </xsl:element>
     </xsl:element>
+  </xsl:template>
+
+  <xsl:template match="div">
+    <p>
+      Divorcé
+    </p>
   </xsl:template>
 
   <xsl:template match="husb | wife | chil">
